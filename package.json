@@ -1,12 +1,12 @@
 {
   "name": "mood-tracker-app",
-  "homepage": "https://creewick.github.io/mood/",
+  "homepage": "https://creewick.github.io/mood",
   "private": true,
   "version": "0.0.1",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d build -f",
     "dev": "vite",
     "build": "tsc && vite build --outDir=build",
     "preview": "vite preview",

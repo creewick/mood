@@ -12,7 +12,7 @@ export default () => {
             <IonCardTitle className="ion-margin-vertical">
                 Как Вы чувствуете себя сейчас?
             </IonCardTitle>
-            <MoodIcon mood={mood} size="300px" animate={true} />
+            <MoodIcon mood={mood} size="280px" animate={true} />
             <MoodInput mood={mood} setMood={setMood} />
         </IonContent>
     );

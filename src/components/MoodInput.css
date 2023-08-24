@@ -9,7 +9,7 @@
     height: 40px;
     border-radius: 20px;
     top: -14px;
-    left: -16px;
+    left: -21px;
 }
 
 .moodInput::part(bar-active) {
@@ -19,6 +19,7 @@
 .moodInput::part(knob) {
     height: 34px;
     width: 34px;
+    left: 8px;
 }
 
 .moodInput::before, .moodInput::after {
@@ -31,10 +32,10 @@
 
 .moodInput::before {
     content: 'НЕПРИЯТНО';
-    left: 0px;
+    left: -5px;
 }
 
 .moodInput::after {
     content: 'ПРИЯТНО';
-    right: -6px;
+    right: -5px;
 }
