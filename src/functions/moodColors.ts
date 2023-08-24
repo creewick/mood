@@ -8,7 +8,7 @@ const colors = [
     { mood: 100, hue: 30 },
 ]
 
-function getHue(mood) {
+function getHue(mood: number) {
     let lowerBound, upperBound;
 
     for (let i = 0; i < colors.length - 1; i++) {
@@ -28,7 +28,7 @@ function getHue(mood) {
     return lowerBound.hue + (upperBound.hue - lowerBound.hue) * mixPercentage;
 }
 
-export default function getColors(mood) {
+export default function getColors(mood: number) {
     const h = getHue(mood);
     const d = Math.abs(mood) / 100;    
 
