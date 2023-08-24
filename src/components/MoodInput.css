@@ -1,0 +1,40 @@
+.moodInput {
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+.moodInput::part(bar) {
+    background: #8884;
+    padding: 0 20px;
+    height: 40px;
+    border-radius: 20px;
+    top: -14px;
+    left: -16px;
+}
+
+.moodInput::part(bar-active) {
+    display: none;
+}
+
+.moodInput::part(knob) {
+    height: 34px;
+    width: 34px;
+}
+
+.moodInput::before, .moodInput::after {
+    position: absolute;
+    color: #888a;
+    font-size: 14px;
+    font-weight: 700;
+    top: 54px;
+}
+
+.moodInput::before {
+    content: 'НЕПРИЯТНО';
+    left: 0px;
+}
+
+.moodInput::after {
+    content: 'ПРИЯТНО';
+    right: -6px;
+}
