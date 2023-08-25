@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCardHeader, IonCardTitle, IonContent, IonFooter, IonGrid, IonHeader, IonModal, IonRange, IonText, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButton, IonButtons, IonCardHeader, IonCardTitle, IonCol, IonContent, IonFooter, IonGrid, IonHeader, IonModal, IonRange, IonRow, IonText, IonTitle, IonToolbar } from "@ionic/react";
 import MoodIcon from "../components/MoodIcon";
 import { useRef, useState } from "react";
 import MoodInput from "../components/MoodInput";
@@ -39,11 +39,11 @@ export default ({pageRef, isOpen, close}: Props) => {
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonContent style={modalContentStyle} className="ion-padding ion-text-center">
+            <IonContent fullscreen style={modalContentStyle} className="ion-padding ion-text-center">
                 <IonCardTitle className="ion-margin-vertical">
                     Как Вы чувствуете себя сейчас?
                 </IonCardTitle>
-                <MoodIcon mood={mood} size="calc(100vh - 500px)" animate={true} />
+                <MoodIcon mood={mood} width="100%" height="calc(100% - 50px)" animate={true} />
             </IonContent>
             <IonFooter className="ion-margin-vertical">
                 <MoodInput className="ion-padding-bottom" mood={mood} setMood={setMood} />

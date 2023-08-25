@@ -4,7 +4,8 @@ import './MoodIcon.css';
 interface Props {
     mood: number;
     animate?: boolean;
-    size?: string;
+    width?: string;
+    height?: string;
 }
 
 interface Point {
@@ -12,7 +13,7 @@ interface Point {
     y: number;
 }
 
-export default function MoodIcon({ mood, animate, size = '100px'}: Props) {
+export default function MoodIcon({ mood, animate, width = '100px', height = '100px'}: Props) {
     const canvasSize = 200;
     const canvasCenter = canvasSize / 2;
     const iconRadius = canvasSize / 5;
@@ -79,7 +80,7 @@ export default function MoodIcon({ mood, animate, size = '100px'}: Props) {
     }
 
     return (
-        <svg viewBox={`0 0 ${canvasSize} ${canvasSize}`} width={size} height={size}>
+        <svg viewBox={`0 0 ${canvasSize} ${canvasSize}`} width={width} height={height}>
             <defs>
                 <radialGradient id="gradient" gradientUnits="userSpaceOnUse" cx="50%" cy="50%" r="35%" fx="50%" fy="50%">
                     <stop offset="0" stopColor={colors.primary} />
