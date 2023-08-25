@@ -31,10 +31,10 @@
 
 .moodInput::before {
     content: 'НЕПРИЯТНО';
-    left: 14px;
+    left: -10px;
 }
 
 .moodInput::after {
     content: 'ПРИЯТНО';
-    right: 14px;
+    right: -10px;
 }

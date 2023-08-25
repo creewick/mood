@@ -10,7 +10,7 @@
 }
 
 .wave1:not(.animate) {
-    transform: scale(2.25);
+    transform: scale(2.2);
     opacity: 0.4;
 }
 
@@ -50,7 +50,7 @@
         opacity: 0.25;
     }
     100% {
-        transform: scale(2.25);
+        transform: scale(2.2);
         opacity: 0;
     }
 }

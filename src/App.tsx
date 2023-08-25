@@ -31,13 +31,15 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import Entries from './pages/Entries';
+import ChooseMoodPage from './pages/ChooseMoodPage';
+import AddEntryModal from './pages/AddEntryModal';
 
 setupIonicReact({mode: 'ios'});
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <Entries />
+      <Route path="/mood" component={Entries} exact />
     </IonReactRouter>
   </IonApp>
 );

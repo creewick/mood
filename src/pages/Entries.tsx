@@ -2,6 +2,7 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonModal, IonPage, IonTit
 import './Entries.css';
 import AddEntryModal from './AddEntryModal';
 import { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router';
 
 export default () => {
   const [showModal, setShowModal] = useState(false);

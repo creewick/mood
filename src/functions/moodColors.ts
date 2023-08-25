@@ -6,10 +6,10 @@ function getPrimaryColor(mood: number) {
         : 0.019 * mood * mood - 3.6 * mood + 196;
     const s = mood < 0
         ? (0.001 * mood * mood - 0.3 * mood + 54) / 100
-        : (0.001 * mood * mood + 0.2 * mood + 51) / 100
+        : (0.001 * mood * mood + 0.3 * mood + 51) / 100
     const l = mood < 0
         ? (0.002 * mood * mood + 0.7 * mood + 70) / 100
-        : (0.004 * mood * mood - 0.7 * mood + 70) / 100
+        : (0.004 * mood * mood - 0.6 * mood + 70) / 100
 
     return tinycolor({h, s, l}).toHexString();
 }
@@ -26,14 +26,6 @@ function getSecondaryColor(mood: number) {
         : (0.004 * mood * mood - 0.5 * mood + 93) / 100
 
     return tinycolor({h, s, l}).toHexString();
-}
-
-function getWavesColor(mood: number) {
-    const h = mood < 0
-        ? 0.001 * mood * mood - 0.4 * mood + 199
-        : 0.019 * mood * mood - 3.6 * mood + 196;
-    
-    return tinycolor({h, s: 0.4, l: 0.7}).toHexString();
 }
 
 function getBackgroundColor(mood: number, darkTheme: boolean) {
@@ -54,7 +46,6 @@ export default function getColors(mood: number) {
     return ({
         primary: getPrimaryColor(mood),
         secondary: getSecondaryColor(mood),
-        waves: getWavesColor(mood),
         background: getBackgroundColor(mood, darkTheme),
     });
 }
