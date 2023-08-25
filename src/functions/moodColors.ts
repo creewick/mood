@@ -1,41 +1,60 @@
 import tinycolor from "tinycolor2";
 
-const colors = [
-    { mood: -100, hue: 260 },
-    { mood: -50, hue: 230 },
-    { mood: 0, hue: 200 },
-    { mood: 50, hue: 60 },
-    { mood: 100, hue: 30 },
-]
+function getPrimaryColor(mood: number) {
+    const h = mood < 0
+        ? 0.001 * mood * mood - 0.4 * mood + 199
+        : 0.019 * mood * mood - 3.6 * mood + 196;
+    const s = mood < 0
+        ? (0.001 * mood * mood - 0.3 * mood + 54) / 100
+        : (0.001 * mood * mood + 0.2 * mood + 51) / 100
+    const l = mood < 0
+        ? (0.002 * mood * mood + 0.7 * mood + 70) / 100
+        : (0.004 * mood * mood - 0.7 * mood + 70) / 100
 
-function getHue(mood: number) {
-    let lowerBound, upperBound;
+    return tinycolor({h, s, l}).toHexString();
+}
 
-    for (let i = 0; i < colors.length - 1; i++) {
-        if (mood >= colors[i].mood && mood <= colors[i + 1].mood) {
-            lowerBound = colors[i];
-            upperBound = colors[i + 1];
-            break;
-        }
-    }
+function getSecondaryColor(mood: number) {
+    const h = mood < 0
+        ? 0.015 * mood * mood + 0.7 * mood + 196
+        : 0.023 * mood * mood - 3.7 * mood + 192;
+    const s = mood < 0
+        ? (-0.007 * mood * mood - 0.3 * mood + 92) / 100
+        : (-0.002 * mood * mood + 0.2 * mood + 92) / 100
+    const l = mood < 0
+        ? (-0.003 * mood * mood - 0.05 * mood + 93) / 100
+        : (0.004 * mood * mood - 0.5 * mood + 93) / 100
 
-    if (!lowerBound || !upperBound) return getHue(0);
+    return tinycolor({h, s, l}).toHexString();
+}
 
-    const range = upperBound.mood - lowerBound.mood;
-    const differenceFromLower = mood - lowerBound.mood;
-    const mixPercentage = differenceFromLower / range;
+function getWavesColor(mood: number) {
+    const h = mood < 0
+        ? 0.001 * mood * mood - 0.4 * mood + 199
+        : 0.019 * mood * mood - 3.6 * mood + 196;
+    
+    return tinycolor({h, s: 0.4, l: 0.7}).toHexString();
+}
 
-    return lowerBound.hue + (upperBound.hue - lowerBound.hue) * mixPercentage;
+function getBackgroundColor(mood: number, darkTheme: boolean) {
+    const h = mood < 0
+        ? 0.001 * mood * mood - 0.4 * mood + 199
+        : 0.019 * mood * mood - 3.6 * mood + 196;
+    const s = mood < 0
+        ? -0.008 * mood * mood - 0.9 * mood + 17
+        : 0.005 * mood * mood + 0.2 * mood + 19;
+    const l = darkTheme ? 20 : 80;
+
+    return tinycolor({h, s, l}).toHexString();
 }
 
 export default function getColors(mood: number) {
-    const h = getHue(mood);
-    const d = Math.abs(mood) / 100;    
+    const darkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     return ({
-        primary: tinycolor({h: h, s: 0.7, l: 0.8 - 0.2 * d}).toHexString(),
-        secondary: tinycolor({h: h + 20, s: 0.5, l: 1 - 0.2 * d}).toHexString(),
-        waves: tinycolor({h: h + 10, s: 0.6, l: 0.7}).toHexString(),
-        background: tinycolor({h: h, s: 0.4, l: 0.9}).toHexString(),
+        primary: getPrimaryColor(mood),
+        secondary: getSecondaryColor(mood),
+        waves: getWavesColor(mood),
+        background: getBackgroundColor(mood, darkTheme),
     });
 }

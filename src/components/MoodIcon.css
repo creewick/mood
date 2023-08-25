@@ -7,38 +7,21 @@
     transform-origin: 50% 50%;
     transform: translateZ(0);
     will-change: transform, opacity;
-    --rotate1: 0deg;
-    --rotate2: 0deg;
-    --rotate3: 0deg;
-}
-
-.wave.negative {
-    --rotate1: 0deg;
-    --rotate2: -30deg;
-    --rotate3: -45deg;
 }
 
 .wave1:not(.animate) {
     transform: scale(2.25);
-    opacity: 0.2;
-}
-
-.wave1.negative:not(.animate) {
-    transform: scale(2.25) rotate(-5deg);
+    opacity: 0.4;
 }
 
 .wave2:not(.animate) {
     transform: scale(2);
-    opacity: 0.3;
-}
-
-.wave2.negative:not(.animate) {
-    transform: scale(2) rotate(-20deg);
+    opacity: 0.6;
 }
 
 .wave3:not(.animate) {
     transform: scale(1.5);
-    opacity: 0.4;
+    opacity: 0.8;
 }
 
 .wave2.animate {
@@ -53,28 +36,21 @@
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-fill-mode: forwards;
-    animation-name: wave;
-}
-
-.wave.animate:not(.negative) {
     animation-duration: 3s;
-}
-
-.wave.animate.negative {
-    animation-duration: 1.8s;
+    animation-name: wave;
 }
 
 @keyframes wave {
     0% {
-        transform: scale(1) rotate(var(--rotate1));
+        transform: scale(1);
         opacity: 0.5;
     }
     50% {
-        transform: scale(2) rotate(var(--rotate2));
+        transform: scale(2);
         opacity: 0.25;
     }
     100% {
-        transform: scale(2.25) rotate(var(--rotate2));
+        transform: scale(2.25);
         opacity: 0;
     }
 }

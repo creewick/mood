@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from 'react';
 export default () => {
   const [showModal, setShowModal] = useState(false);
   const [pageRef, setPageRef] = useState<HTMLElement | null>();
-  const modal = useRef<HTMLIonModalElement>(null);
   const page = useRef(null);
 
   useEffect(() => {
@@ -29,17 +28,7 @@ export default () => {
         <IonButton className="ion-padding" onClick={() => setShowModal(true)}>
           Добавить запись
         </IonButton>
-        <IonModal ref={modal} isOpen={showModal} presentingElement={pageRef!} canDismiss={true} onDidDismiss={() => setShowModal(false)}>
-          <IonHeader>
-            <IonToolbar>
-                <IonTitle>Настроение</IonTitle>
-                <IonButtons slot="end">
-                    <IonButton onClick={() => setShowModal(false)}>Отменить</IonButton>
-                </IonButtons>
-            </IonToolbar>
-          </IonHeader>
-          <AddEntryModal />
-        </IonModal>
+        <AddEntryModal isOpen={showModal} close={() => setShowModal(false)} pageRef={pageRef!} />
       </IonContent>
     </IonPage>
   );

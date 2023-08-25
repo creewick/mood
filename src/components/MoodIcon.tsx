@@ -12,7 +12,7 @@ interface Point {
     y: number;
 }
 
-export default function MoodIcon({ mood, animate, size = '100px' }: Props) {
+export default function MoodIcon({ mood, animate, size = '100px'}: Props) {
     const canvasSize = 200;
     const canvasCenter = canvasSize / 2;
     const iconRadius = canvasSize / 5;
@@ -73,17 +73,27 @@ export default function MoodIcon({ mood, animate, size = '100px' }: Props) {
         ].join(' ');
     }
 
+    function getWaveTransform(mood: number, i: number) {
+        if (mood > -50) return '';
+        return `rotate(${(mood + 50) / 10 * i}deg)`;
+    }
+
     return (
         <svg viewBox={`0 0 ${canvasSize} ${canvasSize}`} width={size} height={size}>
             <defs>
                 <radialGradient id="gradient" gradientUnits="userSpaceOnUse" cx="50%" cy="50%" r="35%" fx="50%" fy="50%">
-                    <stop offset="0.25" stopColor={colors.primary} />
+                    <stop offset="0" stopColor={colors.primary} />
                     <stop offset="0.75" stopColor={colors.secondary} />
                 </radialGradient>
             </defs>
             <g style={{transformOrigin: '50% 50%', transform: `scale(${scale}) rotate(${angle})`}}>
-                {[1,2,3].map(i => <path d={path} fill={colors.waves} className={getWaveClass(mood, i)} stroke={colors.secondary} stroke-width="1" />)}
-                <path d={path} fill="url(#gradient)" className="big" stroke={colors.secondary} stroke-width="2" />
+                <path d={path} fill={colors.primary} className="big" />
+                {[1,2,3].map(i => 
+                    <g style={{transformOrigin: '50% 50%', transform: getWaveTransform(mood, i)}}>
+                        <path key={i} d={path} fill={colors.primary} className={getWaveClass(mood, i)} stroke={colors.secondary} strokeWidth="1" />
+                    </g>
+                )}
+                <path d={path} fill="url(#gradient)" className="big" stroke={colors.secondary} />
                 <path d={path} fill={colors.secondary} className="small" />
             </g>
         </svg>

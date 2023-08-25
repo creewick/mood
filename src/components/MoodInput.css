@@ -1,10 +1,9 @@
 .moodInput {
-    max-width: 320px;
-    margin: 0 auto;
+    margin: 0 22px 36px;
 }
 
 .moodInput::part(bar) {
-    background: #8884;
+    opacity: 0.25;
     padding: 0 20px;
     height: 40px;
     border-radius: 20px;
@@ -24,18 +23,18 @@
 
 .moodInput::before, .moodInput::after {
     position: absolute;
-    color: #888a;
-    font-size: 14px;
+    opacity: 0.5;
+    font-size: 12px;
     font-weight: 700;
     top: 54px;
 }
 
 .moodInput::before {
     content: 'НЕПРИЯТНО';
-    left: -5px;
+    left: 14px;
 }
 
 .moodInput::after {
     content: 'ПРИЯТНО';
-    right: -5px;
+    right: 14px;
 }
