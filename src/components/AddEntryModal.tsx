@@ -1,6 +1,6 @@
 import { IonModal, IonNav } from "@ionic/react";
 import { useRef } from "react";
-import ChooseMoodPage from "./AddMoodPage";
+import ChooseMoodPage from "../pages/AddMoodPage";
 import Entry from "../models/Entry";
 
 interface Props {

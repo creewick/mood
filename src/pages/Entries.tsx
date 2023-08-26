@@ -1,8 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './Entries.css';
-import AddEntryModal from './AddEntryModal';
-import StorageContext from '../components/StorageContext';
+import AddEntryModal from '../components/AddEntryModal';
+import StorageContext from '../models/StorageContext';
 import MoodIcon from '../components/MoodIcon';
 import Entry from '../models/Entry';
 

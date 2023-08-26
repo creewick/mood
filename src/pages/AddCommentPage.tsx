@@ -4,7 +4,7 @@ import tinycolor from "tinycolor2";
 import { useContext, useState } from "react";
 import moodCaption from "../functions/moodCaptions";
 import Title from "../components/Title";
-import StorageContext from "../components/StorageContext";
+import StorageContext from "../models/StorageContext";
 import Entry from "../models/Entry";
 
 interface Props {

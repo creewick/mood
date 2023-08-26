@@ -25,7 +25,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import Entries from './pages/Entries';
-import StorageContext from './components/StorageContext';
+import StorageContext from './models/StorageContext';
 
 setupIonicReact({mode: 'ios'});
 
