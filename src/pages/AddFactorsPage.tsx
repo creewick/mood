@@ -1,12 +1,11 @@
-import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonCardTitle, IonFooter, IonBackButton, IonNavLink, IonText, IonChip, IonTextarea, IonInput } from "@ionic/react";
+import { IonText, IonChip } from "@ionic/react";
 import MoodIcon from "../components/MoodIcon";
-import tinycolor from "tinycolor2";
 import { useState } from "react";
 import moodCaption from "../functions/moodCaptions";
-import getFactors from "../functions/factors";
-import Title from "../components/Title";
-import AddCommentPage from "./AddCommentPage";
+import getFactorGroups from "../functions/factors";
 import Entry from "../models/Entry";
+import AddEntryModalStep from "../components/modals/AddEntryModalStep";
+import AddCommentPage from "./AddCommentPage";
 
 interface Props {
     mood: number;
@@ -14,77 +13,45 @@ interface Props {
     colors: any;
     close: () => void;
     save: (entry: Entry) => Promise<void>;
+    prevButton: string;
 }
 
-export default ({mood, feelings, colors, close, save}: Props) => {
+export default ({mood, feelings, colors, close, prevButton, save}: Props) => {
     const [factors, setFactors] = useState<string[]>([]);
-    const modalContentStyle = {
-        '--background': `radial-gradient(${
-            tinycolor(colors.background).lighten(20)} 0%, ${
-            colors.background} 70%)`,
-    }
-    const buttonStyle = {
-        '--background': colors.primary,
-        '--background-hover': tinycolor(colors.primary).lighten(10).toHexString(),
-        '--background-activated': tinycolor(colors.primary).lighten(20).toHexString(),
-        '--background-focused': tinycolor(colors.primary).lighten(10).toHexString(),
-        '--border-radius': '50px',
-    }  
-    const modalStyle = {
-        '--background': colors.background,
-        'background': colors.background
-    }
-
-    const headerStyle = {
-        '--background': colors.background
-    }
+    const title = 'Влияние';
+    const nextComponent = () => <AddCommentPage {...{mood, feelings, factors, colors, close, save, prevButton: title}} />;
 
     const onClick = (factor: string) => {
-        if (factors.includes(factor)) {
-            setFactors(factors.filter((f) => f !== factor));
-        } else {
-            setFactors([...factors, factor]);
-        }
+        setFactors(factors.includes(factor)
+            ? factors.filter((f) => f !== factor)
+            : [...factors, factor]);
     }
+
+    const renderFactor = (factor: string) => (
+        <IonChip key={factor} outline={!factors.includes(factor)} onClick={() => onClick(factor)}>
+            {factor}
+        </IonChip>
+    );
+
+    const renderGroup = (group: string[]) => (
+        <div className="ion-padding-top ion-text-center">
+            { group.sort((a, b) => b.length - a.length).map(renderFactor) }
+        </div>
+    );
+
     
     return (
-        <>
-            <IonHeader className="ion-no-border">
-                <IonToolbar style={headerStyle}>
-                    <IonButtons slot="start">
-                        <IonBackButton text="Чувства" />
-                    </IonButtons>
-                    <IonTitle>Влияние</IonTitle>
-                    <IonButtons slot="end">
-                        <IonButton onClick={close}>Отменить</IonButton>
-                    </IonButtons>
-                </IonToolbar>
-            </IonHeader>
-            <IonContent style={modalContentStyle} className="ion-padding ion-text-center">
-                <MoodIcon mood={mood} width="100px" height="100px" animate={false} />
-                <Title>
-                    {moodCaption(mood)}
-                </Title>
-                <IonText className="ion-padding-vertical">
+        <AddEntryModalStep {...{colors, close, title, prevButton, nextComponent}}>
+            <MoodIcon mood={mood} width="100%" height="max(100px, 25%)" animate={false} />
+            <h3 className="title ion-text-center">
+                { moodCaption(mood) }
+            </h3>
+            <div className="ion-padding-vertical ion-text-center">
+                <IonText>
                     Что оказало наибольшее влияние?
                 </IonText>
-                { getFactors().map(group =>
-                    <div className="ion-padding-top">
-                        { group.sort((a, b) => b.length - a.length).map(factor => 
-                            <IonChip key={factor} outline={!factors.includes(factor)} onClick={() => onClick(factor)}>
-                                {factor}
-                            </IonChip>
-                        )}
-                    </div>
-                )}
-            </IonContent>
-            <IonFooter style={modalStyle} className="ion-padding">
-                <IonNavLink routerDirection="forward" component={() => <AddCommentPage mood={mood} feelings={feelings} factors={factors} colors={colors} close={close} save={save} />}>
-                    <IonButton style={buttonStyle} className="ion-padding-horizontal ion-padding-bottom" expand="block">
-                        Далее
-                    </IonButton>
-                </IonNavLink>
-            </IonFooter>
-        </>
+            </div>
+            { getFactorGroups().map(renderGroup) }
+        </AddEntryModalStep>
     );
 }

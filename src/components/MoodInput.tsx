@@ -18,7 +18,6 @@ export default ({mood, setMood, className = ''}: Props) => {
                 {moodCaption(mood)}
             </IonCardTitle>
             <IonRange
-                data-color={colors.primary}
                 className="moodInput"
                 min={-100} max={100} step={1} value={mood} color="primary" 
                 onIonInput={({ detail }) => setMood(detail.value as number)} 

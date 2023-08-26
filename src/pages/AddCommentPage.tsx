@@ -1,11 +1,10 @@
-import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonCardTitle, IonFooter, IonBackButton, IonNavLink, IonText, IonChip, IonTextarea, IonInput } from "@ionic/react";
+import { IonText, IonInput, IonTextarea } from "@ionic/react";
 import MoodIcon from "../components/MoodIcon";
-import tinycolor from "tinycolor2";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import moodCaption from "../functions/moodCaptions";
-import Title from "../components/Title";
-import StorageContext from "../models/StorageContext";
 import Entry from "../models/Entry";
+import AddEntryModalStep from "../components/modals/AddEntryModalStep";
+import "../components/ContextInput.css";
 
 interface Props {
     mood: number;
@@ -14,63 +13,32 @@ interface Props {
     colors: any;
     close: () => void;
     save: (entry: Entry) => Promise<void>;
+    prevButton: string;
 }
 
-export default ({mood, feelings, factors, colors, close, save}: Props) => {
+export default ({mood, feelings, factors, colors, close, prevButton, save}: Props) => {
     const [comment, setComment] = useState<string>('');
-    const storage = useContext(StorageContext);
-    
-    const modalContentStyle = {
-        '--background': `radial-gradient(${
-            tinycolor(colors.background).lighten(20)} 0%, ${
-            colors.background} 70%)`,
-    }
-    const buttonStyle = {
-        '--background': colors.primary,
-        '--background-hover': tinycolor(colors.primary).lighten(10).toHexString(),
-        '--background-activated': tinycolor(colors.primary).lighten(20).toHexString(),
-        '--background-focused': tinycolor(colors.primary).lighten(10).toHexString(),
-        '--border-radius': '50px',
-    }  
-    const modalStyle = {
-        '--background': colors.background,
-        'background': colors.background
-    }
+    const title = 'Комментарий';
 
-    const headerStyle = {
-        '--background': colors.background
+    const saveEntry = async () => {
+        await save({mood, feelings, factors, comment, date: new Date()});
+        close();
     }
     
     return (
-        <>
-            <IonHeader className="ion-no-border">
-                <IonToolbar style={headerStyle}>
-                    <IonButtons slot="start">
-                        <IonBackButton text="Влияние" />
-                    </IonButtons>
-                    <IonTitle>Комментарий</IonTitle>
-                    <IonButtons slot="end">
-                        <IonButton onClick={close}>Отменить</IonButton>
-                    </IonButtons>
-                </IonToolbar>
-            </IonHeader>
-            <IonContent style={modalContentStyle} className="ion-padding ion-text-center">
-                <MoodIcon mood={mood} width="100px" height="100px" animate={false} />
-                <Title>
-                    {moodCaption(mood)}
-                </Title>
-                <IonText className="ion-padding-vertical">
-                    Опишите Ваше самочувствие
+        <AddEntryModalStep {...{colors, close, title, prevButton, save: saveEntry}}>
+            <MoodIcon mood={mood} width="100%" height="max(100px, 25%)" animate={false} />
+            <h3 className="title ion-text-center">
+                { moodCaption(mood) }
+            </h3>
+            <div className="ion-padding-vertical ion-text-center">
+                <IonText>
+                    Опишите своё самочувствие
                 </IonText>
-                <IonInput value={comment} onIonChange={({ detail }) => setComment(detail.value as string)} className="ion-text-left ion-padding" placeholder="Дополнительный контекст" />
-            </IonContent>
-            <IonFooter style={modalStyle} className="ion-padding">
-                <IonNavLink routerDirection="root" onClick={() => save({mood, feelings, factors, comment, date: new Date()})}>
-                    <IonButton style={buttonStyle} className="ion-padding-horizontal ion-padding-bottom" expand="block">
-                        Готово
-                    </IonButton>
-                </IonNavLink>
-            </IonFooter>
-        </>
+            </div>
+            <div className="ion-padding">
+                <IonTextarea className="context-input" autoGrow={true} value={comment} onIonChange={({ detail }) => setComment(detail.value ?? '')} placeholder="Дополнительный контекст..." />
+            </div>
+        </AddEntryModalStep>
     );
 }

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import AddEntryModal from '../components/AddEntryModal';
+import AddEntryModal from '../components/modals/AddEntryModal';
 import StorageContext from '../models/StorageContext';
 import MoodIcon from '../components/MoodIcon';
 import Entry from '../models/Entry';
@@ -52,7 +52,7 @@ export default () => {
         <IonButton className="ion-padding-start" color="danger" onClick={clear}>
           Очистить всё
         </IonButton>
-        <AddEntryModal isOpen={showModal} close={() => setShowModal(false)} save={save} pageRef={pageRef!} />
+        <AddEntryModal isOpen={showModal} close={() => setShowModal(false)} save={save} presentingElement={pageRef!} />
       </IonContent>
     </IonPage>
   );

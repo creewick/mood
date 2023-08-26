@@ -1,4 +1,3 @@
-import tinycolor from 'tinycolor2';
 import getColors from '../functions/moodColors';
 import './MoodIcon.css';
 
