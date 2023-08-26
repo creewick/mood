@@ -1,6 +1,7 @@
 import { IonCardTitle, IonRange } from "@ionic/react";
 import './MoodInput.css';
 import getColors from "../functions/moodColors";
+import moodCaption from "../functions/moodCaptions";
 
 interface Props {
     mood: number;
@@ -10,19 +11,11 @@ interface Props {
 
 export default ({mood, setMood, className = ''}: Props) => {
     const colors = getColors(mood);
-    const caption =
-        mood < -75 ? 'Очень неприятно' :
-        mood < -50 ? 'Неприятно' :
-        mood < -25 ? 'Немного неприятно' :
-        mood < 25 ? 'Нормально' :
-        mood < 50 ? 'Немного приятно' :
-        mood < 75 ? 'Приятно' :
-        'Очень приятно';
 
     return (
         <div className={className}>
             <IonCardTitle className="ion-padding-bottom ion-text-center">
-                {caption}
+                {moodCaption(mood)}
             </IonCardTitle>
             <IonRange
                 data-color={colors.primary}

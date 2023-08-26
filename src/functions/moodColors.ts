@@ -35,7 +35,7 @@ function getBackgroundColor(mood: number, darkTheme: boolean) {
     const s = mood < 0
         ? -0.008 * mood * mood - 0.9 * mood + 17
         : 0.005 * mood * mood + 0.2 * mood + 19;
-    const l = darkTheme ? 20 : 80;
+    const l = darkTheme ? 20 : 90;
 
     return tinycolor({h, s, l}).toHexString();
 }

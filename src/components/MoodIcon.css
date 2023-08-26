@@ -6,22 +6,23 @@
 .wave {
     transform-origin: 50% 50%;
     transform: translateZ(0);
+    opacity: 0;
     will-change: transform, opacity;
 }
 
 .wave1:not(.animate) {
     transform: scale(2.2);
-    opacity: 0.4;
+    opacity: 0.2;
 }
 
 .wave2:not(.animate) {
     transform: scale(2);
-    opacity: 0.6;
+    opacity: 0.3;
 }
 
 .wave3:not(.animate) {
     transform: scale(1.5);
-    opacity: 0.8;
+    opacity: 0.4;
 }
 
 .wave2.animate {

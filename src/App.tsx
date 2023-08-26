@@ -1,16 +1,10 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import {
   IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { add, atCircle, calendar, card, ellipse, list, listCircle, listSharp, newspaper, square, sunny, today, triangle } from 'ionicons/icons';
+import { Storage } from '@ionic/storage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -31,17 +25,21 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import Entries from './pages/Entries';
-import ChooseMoodPage from './pages/ChooseMoodPage';
-import AddEntryModal from './pages/AddEntryModal';
+import StorageContext from './components/StorageContext';
 
 setupIonicReact({mode: 'ios'});
 
+const storage = new Storage();
+storage.create();
+
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <Route path="/mood" component={Entries} exact />
-    </IonReactRouter>
-  </IonApp>
+  <StorageContext.Provider value={storage}>
+    <IonApp>
+      <IonReactRouter>
+        <Route path="/mood" component={Entries} exact />
+      </IonReactRouter>
+    </IonApp>
+  </StorageContext.Provider>
 );
 
 export default App;
