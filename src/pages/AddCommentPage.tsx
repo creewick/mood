@@ -1,44 +1,40 @@
-import { IonText, IonInput, IonTextarea } from "@ionic/react";
-import MoodIcon from "../components/MoodIcon";
+import { IonText, IonTextarea, IonCard } from "@ionic/react";
+import MoodIcon from "../components/MoodIcon/MoodIcon";
 import { useState } from "react";
 import moodCaption from "../functions/moodCaptions";
-import Entry from "../models/Entry";
-import AddEntryModalStep from "../components/modals/AddEntryModalStep";
-import "../components/ContextInput.css";
+import Entry from "../models/storage/Entry";
+import AddEntryModalStep from "../components/AddEntryModal/AddEntryModalStep";
 
 interface Props {
-    mood: number;
-    feelings: string[];
-    factors: string[];
+    entry: Entry;
     colors: any;
     close: () => void;
     save: (entry: Entry) => Promise<void>;
     prevButton: string;
 }
 
-export default ({mood, feelings, factors, colors, close, prevButton, save}: Props) => {
+export default ({entry, colors, close, prevButton, save}: Props) => {
     const [comment, setComment] = useState<string>('');
     const title = 'Комментарий';
 
     const saveEntry = async () => {
-        await save({mood, feelings, factors, comment, date: new Date()});
-        close();
+        await save({...entry, comment});
     }
     
     return (
-        <AddEntryModalStep {...{colors, close, title, prevButton, save: saveEntry}}>
-            <MoodIcon mood={mood} width="100%" height="max(100px, 25%)" animate={false} />
+        <AddEntryModalStep {...{colors, close, title, prevButton, onSaveClick: saveEntry, onNextClick: saveEntry}}>
+            <MoodIcon mood={entry.mood} width="100%" height="max(100px, 25%)" animate={false} />
             <h3 className="title ion-text-center">
-                { moodCaption(mood) }
+                { moodCaption(entry.mood) }
             </h3>
             <div className="ion-padding-vertical ion-text-center">
                 <IonText>
                     Опишите своё самочувствие
                 </IonText>
             </div>
-            <div className="ion-padding">
-                <IonTextarea className="context-input" autoGrow={true} value={comment} onIonChange={({ detail }) => setComment(detail.value ?? '')} placeholder="Дополнительный контекст..." />
-            </div>
+            <IonCard className="ion-padding-horizontal">
+                <IonTextarea autoGrow={true} value={comment} onIonChange={({ detail }) => setComment(detail.value ?? '')} placeholder="Дополнительный контекст..." />
+            </IonCard>
         </AddEntryModalStep>
     );
 }

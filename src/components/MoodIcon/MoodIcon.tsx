@@ -1,4 +1,4 @@
-import getColors from '../functions/moodColors';
+import getColors from '../../functions/moodColors';
 import './MoodIcon.css';
 
 interface Props {

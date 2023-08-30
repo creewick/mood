@@ -1,26 +1,32 @@
-import { IonText, IonChip } from "@ionic/react";
-import MoodIcon from "../components/MoodIcon";
+import { IonText, IonChip, IonButton } from "@ionic/react";
+import MoodIcon from "../components/MoodIcon/MoodIcon";
 import { useState } from "react";
 import moodCaption from "../functions/moodCaptions";
 import getFactorGroups from "../functions/factors";
-import Entry from "../models/Entry";
-import AddEntryModalStep from "../components/modals/AddEntryModalStep";
+import Entry from "../models/storage/Entry";
+import AddEntryModalStep from "../components/AddEntryModal/AddEntryModalStep";
 import AddCommentPage from "./AddCommentPage";
 
 interface Props {
-    mood: number;
-    feelings: string[];
+    entry: Entry;
     colors: any;
     close: () => void;
     save: (entry: Entry) => Promise<void>;
     prevButton: string;
 }
 
-export default ({mood, feelings, colors, close, prevButton, save}: Props) => {
+export default ({entry, colors, close, prevButton, save}: Props) => {
     const [factors, setFactors] = useState<string[]>([]);
     const title = 'Влияние';
-    const nextComponent = () => <AddCommentPage {...{mood, feelings, factors, colors, close, save, prevButton: title}} />;
-
+    const nextComponent = <AddCommentPage {...{colors, close, save, prevButton: title, entry: {...entry, factors}}} />;
+    const footer = (
+        <div className="ion-text-center">
+            <IonButton fill="clear" onClick={() => save({...entry, factors})}>
+                Пропустить и сохранить
+            </IonButton>
+        </div>
+    );
+    
     const onClick = (factor: string) => {
         setFactors(factors.includes(factor)
             ? factors.filter((f) => f !== factor)
@@ -41,10 +47,10 @@ export default ({mood, feelings, colors, close, prevButton, save}: Props) => {
 
     
     return (
-        <AddEntryModalStep {...{colors, close, title, prevButton, nextComponent}}>
-            <MoodIcon mood={mood} width="100%" height="max(100px, 25%)" animate={false} />
+        <AddEntryModalStep {...{colors, close, title, footer, prevButton, nextComponent}}>
+            <MoodIcon mood={entry.mood} width="100%" height="max(100px, 25%)" animate={false} />
             <h3 className="title ion-text-center">
-                { moodCaption(mood) }
+                { moodCaption(entry.mood) }
             </h3>
             <div className="ion-padding-vertical ion-text-center">
                 <IonText>

@@ -1,18 +1,17 @@
 import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonButton, IonContent, IonFooter, IonNavLink } from "@ionic/react"
-import tinycolor from "tinycolor2";
 
 interface Props {
     children: React.ReactNode;
     footer?: React.ReactNode;
-    colors: any;
-    close: () => void;
+    nextComponent?: React.ReactNode;
     title: string;
+    colors: any;
     prevButton?: string;
-    nextComponent?: () => React.ReactNode;
-    save? : () => void;
+    close: () => void;
+    onNextClick?: () => void;
 }
 
-export default ({children, footer, colors, close, title, prevButton, nextComponent, save}: Props) => {
+export default ({children, footer, title, colors, prevButton, nextComponent, onNextClick, close}: Props) => {
     const headerStyle = {
         '--background': colors.background
     };
@@ -22,15 +21,15 @@ export default ({children, footer, colors, close, title, prevButton, nextCompone
     }
     
     const footerStyle = {
-        'background': colors.background
+        'background': colors.background,
+        'margin': '0px'
     }
 
     const buttonStyle = {
         '--background': colors.wave,
-        '--background-hover': tinycolor(colors.primary).lighten(10).toHexString(),
-        '--background-activated': tinycolor(colors.primary).lighten(20).toHexString(),
-        '--background-focused': tinycolor(colors.primary).lighten(10).toHexString(),
-        '--border-radius': '50px',
+        '--background-hover': colors.wave,
+        '--background-activated': colors.primary,
+        '--background-focused': colors.primary,
     }  
     
     return (
@@ -53,12 +52,16 @@ export default ({children, footer, colors, close, title, prevButton, nextCompone
             <IonContent style={contentStyle} className="ion-padding-horizontal">
                 {children}
             </IonContent>
-            <IonFooter style={footerStyle} className="ion-padding-horizontal ion-padding-bottom">
-                {footer}
-                <IonNavLink routerDirection="forward" component={nextComponent} onClick={nextComponent ? undefined : save}>
-                    <IonButton style={buttonStyle} expand="block" className="ion-padding">
-                        {nextComponent ? 'Далее' : 'Готово'}
-                    </IonButton>
+            <IonFooter>
+                <div style={footerStyle} className="ion-padding-horizontal">
+                    {footer}
+                </div>
+                <IonNavLink routerDirection="forward" component={() => nextComponent}>
+                    <div className="ion-padding" style={footerStyle}>
+                        <IonButton style={buttonStyle} onClick={onNextClick} className="ion-margin-horizontal ion-margin-bottom" expand="block" shape="round">
+                            {nextComponent ? 'Далее' : 'Готово'}
+                        </IonButton>
+                    </div>
                 </IonNavLink>
             </IonFooter>
         </>);
