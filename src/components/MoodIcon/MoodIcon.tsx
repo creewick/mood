@@ -79,6 +79,10 @@ export default function MoodIcon({ mood, animate, width = '100px', height = '100
         return `rotate(${(mood + 50) / 10 * i}deg)`;
     }
 
+    if (mood !== 0 && !mood) {
+        return <svg viewBox={`0 0 ${canvasSize} ${canvasSize}`} width={width} height={height} />
+    }
+
     return (
         <svg viewBox={`0 0 ${canvasSize} ${canvasSize}`} width={width} height={height}>
             <defs>
@@ -88,18 +92,14 @@ export default function MoodIcon({ mood, animate, width = '100px', height = '100
                 </radialGradient>
             </defs>
             <g style={{transformOrigin: '50% 50%', transform: `scale(${scale}) rotate(${angle})`}}>
-                { mood !== undefined &&
-                <>
-                    <path d={path} fill={colors.primary} className="big" />
-                    {[1,2,3].map(i => 
-                        <g style={{transformOrigin: '50% 50%', transform: getWaveTransform(mood, i)}}>
-                            <path key={i} d={path} fill={colors.wave} className={getWaveClass(mood, i)} stroke={colors.secondary} strokeWidth="1" />
-                        </g>
-                    )}
-                    <path d={path} fill="url(#gradient)" className="big" stroke={colors.secondary} />
-                    <path d={path} fill={colors.secondary} className="small" />
-                </>
-                }
+                <path d={path} fill={colors.primary} className="big" />
+                {[1,2,3].map(i => 
+                    <g key={i} style={{transformOrigin: '50% 50%', transform: getWaveTransform(mood, i)}}>
+                        <path d={path} fill={colors.wave} className={getWaveClass(mood, i)} stroke={colors.secondary} strokeWidth="1" />
+                    </g>
+                )}
+                <path d={path} fill="url(#gradient)" className="big" stroke={colors.secondary} />
+                <path d={path} fill={colors.secondary} className="small" />
             </g>
         </svg>
     );

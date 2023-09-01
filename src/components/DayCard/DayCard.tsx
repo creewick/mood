@@ -34,7 +34,7 @@ export default forwardRef(({date, entries}: DaySummaryCardProps, ref: Ref<HTMLIo
                 </h3>
             </div>
             <IonList className="ion-margin-vertical" style={{height: 'calc(100% - 170px - 15svh)', overflowY: 'scroll'}}>
-                {entries.map(entry => <DaySummaryCardEntry entry={entry} colors={colors} />)}
+                {entries.map((entry) => <DaySummaryCardEntry entry={entry} key={entry.date.getTime()} />)}
             </IonList>
         </IonCard>
     );

@@ -1,4 +1,4 @@
-import { Ref, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import StorageContext from '../models/StorageContext';
 import EntryService from '../services/EntryService';
@@ -6,37 +6,27 @@ import DaySummaryCardProps from '../components/DayCard/DayCardProps';
 import DayCard from '../components/DayCard/DayCard';
 import DayCardPlaceholder from '../components/DayCard/DayCardPlaceholder';
 
-interface Props {
-  showModal: boolean;
-}
-
-export default (props: Props) => {
+export default () => {
   const [cards, setCards] = useState<DaySummaryCardProps[]>([]);
-  const [minDay, setMinDay] = useState<number>(0);
   const entryService = new EntryService(useContext(StorageContext));
   const scrollRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLIonCardElement>(null);
 
-  useEffect(() => {
-    loadCards();
-  }, []);
+  const update = async (date: Date) => {
+    const index = cards.findIndex(card => card.date.toDateString() === date.toDateString());
+    if (index === -1) return;
 
-  useEffect(() => {
-    cardRef.current?.scrollIntoView({ behavior: 'instant', inline: 'start' });
-  }, [cards]);
+    const entries = await entryService.getEntriesByDay(date);
+    const newCards = [...cards];
+    newCards[index] = { date, entries };
+    setCards(newCards);
+  }
 
-  const loadCards = async () => {
-    const newCards: DaySummaryCardProps[] = [];
-
-    for (const days of [-6, -5, -4, -3, -2, -1, 0]) {
-      const date = addDays(new Date(), days + minDay);
-      const entries = await entryService.getEntriesByDay(date);
-      newCards.push({ date, entries });
-    }
-  
-    setCards([...newCards, ...cards]);
-    setMinDay(minDay - 7);
-  };
+  const addDays = (date: Date = new Date(), days: number): Date => {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
 
   useEffect(() => {
     const handleScroll = async () => {
@@ -54,13 +44,32 @@ export default (props: Props) => {
         scrollRef.current.removeEventListener('scroll', handleScroll);
       }
     };
-  }, [scrollRef, cards, minDay]);
+  }, [scrollRef, cards]);
 
-  const addDays = (date: Date = new Date(), days: number): Date => {
-    const result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
-  }
+  useEffect(() => {
+    loadCards();
+  }, []);
+
+  useEffect(() => {
+    entryService.subscribe(update);
+    return () => entryService.unsubscribe(update);
+  }, [cards]);
+
+  useEffect(() => {
+    cardRef.current?.scrollIntoView({ behavior: 'instant', inline: 'start' });
+  }, [cards.length]);
+
+  const loadCards = async () => {
+    const newCards: DaySummaryCardProps[] = [];
+
+    for (const days of [-6, -5, -4, -3, -2, -1, 0]) {
+      const date = addDays(new Date(), days - cards.length);
+      const entries = await entryService.getEntriesByDay(date);
+      newCards.push({ date, entries });
+    }
+  
+    setCards([...newCards, ...cards]);
+  };
 
   return (
     <IonPage>
@@ -72,7 +81,7 @@ export default (props: Props) => {
       <IonContent>
         <div ref={scrollRef} style={{display: 'flex', overflowX: 'scroll', scrollSnapType: 'x mandatory', height: '100%'}}>
           <DayCardPlaceholder />
-          { cards.map((props, i) => <DayCard {...props} ref={i === Math.min(cards.length - 1, 7) ? cardRef : undefined} />) }
+          { cards.map((props, i) => <DayCard {...props} key={i} ref={i === Math.min(cards.length - 1, 7) ? cardRef : undefined} />) }
           <DayCardPlaceholder />
         </div>
       </IonContent>

@@ -20,9 +20,14 @@
 
 .day-card-tags {
     opacity: 0.5;
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
 }
 
 .day-card ion-item {
     --background: var(--ion-card-background, white);
+}
+
+.day-card ion-col,
+.day-card ion-grid {
+    padding: 0;
 }

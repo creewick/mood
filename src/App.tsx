@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -31,10 +31,12 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import Entries from './pages/Entries';
+
+import EntriesPage from './pages/EntriesPage';
 import StorageContext from './models/StorageContext';
 import { useRef, useEffect, useState } from 'react';
 import AddEntryModal from './components/AddEntryModal/AddEntryModal';
+import SettingsPage from './pages/SettingsPage';
 
 setupIonicReact({mode: 'ios'});
 
@@ -67,28 +69,31 @@ const App: React.FC = () => {
         <IonReactRouter>
           <IonTabs>
             <IonRouterOutlet ref={ref}>
-              <Route path="/mood" render={() => <Entries showModal={showModal} />} />
+              <Redirect exact from="/mood" to="/mood/home" />
+              <Redirect exact from="/" to="/mood/home" />
+              <Route path="/mood/home" render={() => <EntriesPage />} />
+              <Route path="/mood/settings" render={() => <SettingsPage />} />
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
-              <IonTabButton tab="entries" href="/mood/">
+              <IonTabButton tab="entries" href="/mood/home">
                 <IonIcon icon={newspaper} />
                 <IonLabel>Записи</IonLabel>
               </IonTabButton>
-              <IonTabButton tab="calendar" href="/mood/calendar">
+              {/* <IonTabButton tab="calendar" href="/mood/calendar">
                 <IonIcon icon={calendar} />
                 <IonLabel>---</IonLabel>
-              </IonTabButton>
-              <IonTabButton tab="add" onClick={() => {setShowModal(false); setShowModal(true);}}>
+              </IonTabButton> */}
+              <IonTabButton tab="add" onClick={() => {setShowModal(true);}}>
                 <IonIcon icon={addCircle} />
                 <IonLabel>Добавить</IonLabel>
               </IonTabButton>
-              <IonTabButton tab="highlights" href="/mood/highlights">
+              {/* <IonTabButton tab="highlights" href="/mood/highlights">
                 <IonIcon icon={statsChart} />
                 <IonLabel>---</IonLabel>
-              </IonTabButton>
+              </IonTabButton> */}
               <IonTabButton tab="settings" href="/mood/settings">
                 <IonIcon icon={cog} />
-                <IonLabel>---</IonLabel>
+                <IonLabel>Настройки</IonLabel>
               </IonTabButton>
             </IonTabBar>
           </IonTabs>

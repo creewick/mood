@@ -7,6 +7,7 @@ import Entry from "../models/storage/Entry";
 
 export default class EntryService {
     private storage: IonicStorage;
+    private static onChanged: ((date: Date) => void)[] = [];
 
     public constructor(storage: IonicStorage | null) {
         this.storage = storage!;
@@ -41,6 +42,8 @@ export default class EntryService {
         entries[year][month][day].push(entry);
 
         await this.storage.set('entries', entries);
+
+        EntryService.onChanged.forEach((callback) => callback(entry.date));
     }
 
     public async remove(entry: Entry): Promise<void> {
@@ -54,6 +57,16 @@ export default class EntryService {
             .filter((e: Entry) => JSON.stringify(e) !== JSON.stringify(entry));
 
         await this.storage.set('entries', entries);
+
+        EntryService.onChanged.forEach((callback) => callback(entry.date));
+    }
+
+    public subscribe(callback: (date: Date) => void): void {
+        EntryService.onChanged.push(callback);
+    }
+
+    public unsubscribe(callback: (date: Date) => void): void {
+        EntryService.onChanged = EntryService.onChanged.filter((c) => c !== callback);
     }
 
     public async clear(): Promise<void> {
