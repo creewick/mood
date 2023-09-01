@@ -9,7 +9,7 @@ import {
   IonTabs,
   setupIonicReact
 } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+import { IonReactHashRouter } from '@ionic/react-router';
 import { Storage } from '@ionic/storage';
 import { newspaper, addCircle, cog, settings } from 'ionicons/icons';
 
@@ -73,16 +73,15 @@ const App: React.FC = () => {
       <StorageContext.Provider value={storage}>
         <IonApp>
           <AddEntryModal isOpen={showModal} close={() => setShowModal(false)} presentingElement={appRef!} />
-          <IonReactRouter>
+          <IonReactHashRouter>
             <IonTabs>
               <IonRouterOutlet ref={ref}>
-                <Redirect exact from="/mood" to="/mood/home" />
-                <Redirect exact from="/" to="/mood/home" />
-                <Route path="/mood/home" render={() => <EntriesPage />} />
-                <Route path="/mood/settings" render={() => <SettingsPage />} />
+                <Redirect exact from="/" to="/entries" />
+                <Route path="/entries" render={() => <EntriesPage />} />
+                <Route path="/settings" render={() => <SettingsPage />} />
               </IonRouterOutlet>
               <IonTabBar slot="bottom">
-                <IonTabButton tab="entries" href="/mood/home">
+                <IonTabButton tab="entries" href="/entries">
                   <IonIcon icon={newspaper} />
                   <IonLabel>
                     <Translation path="tabEntries"/>
@@ -102,7 +101,7 @@ const App: React.FC = () => {
                   <IonIcon icon={statsChart} />
                   <IonLabel>---</IonLabel>
                 </IonTabButton> */}
-                <IonTabButton tab="settings" href="/mood/settings">
+                <IonTabButton tab="settings" href="/settings">
                   <IonIcon icon={cog} />
                   <IonLabel>
                     <Translation path="tabSettings"/>
@@ -110,7 +109,7 @@ const App: React.FC = () => {
                 </IonTabButton>
               </IonTabBar>
             </IonTabs>
-          </IonReactRouter>
+          </IonReactHashRouter>
         </IonApp>
       </StorageContext.Provider>
     </TranslationProvider>
