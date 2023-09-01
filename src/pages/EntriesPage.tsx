@@ -5,6 +5,7 @@ import EntryService from '../services/EntryService';
 import DaySummaryCardProps from '../components/DayCard/DayCardProps';
 import DayCard from '../components/DayCard/DayCard';
 import DayCardPlaceholder from '../components/DayCard/DayCardPlaceholder';
+import { Translation } from 'i18nano';
 
 export default () => {
   const [cards, setCards] = useState<DaySummaryCardProps[]>([]);
@@ -75,7 +76,9 @@ export default () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Записи</IonTitle>
+          <IonTitle>
+            <Translation path="tabEntries"/>
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

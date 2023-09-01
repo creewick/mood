@@ -2,7 +2,7 @@ import { IonText, IonTextarea, IonCard } from "@ionic/react";
 import MoodIcon from "../components/MoodIcon/MoodIcon";
 import { useState } from "react";
 import moodCaption from "../functions/moodCaptions";
-import Entry from "../models/storage/Entry";
+import Entry from "../models/entry/Entry";
 import AddEntryModalStep from "../components/AddEntryModal/AddEntryModalStep";
 
 interface Props {

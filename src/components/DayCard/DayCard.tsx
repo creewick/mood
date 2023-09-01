@@ -33,7 +33,7 @@ export default forwardRef(({date, entries}: DaySummaryCardProps, ref: Ref<HTMLIo
                     { !isNaN(averageMood) ? moodCaption(averageMood) : 'Нет записей' }
                 </h3>
             </div>
-            <IonList className="ion-margin-vertical" style={{height: 'calc(100% - 170px - 15svh)', overflowY: 'scroll'}}>
+            <IonList className="ion-margin-vertical" style={{height: 'calc(100% - 170px - 15svh)', overflowY: 'scroll', background: 'transparent'}}>
                 {entries.map((entry) => <DaySummaryCardEntry entry={entry} key={entry.date.getTime()} />)}
             </IonList>
         </IonCard>

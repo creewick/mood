@@ -3,7 +3,7 @@ import MoodIcon from "../components/MoodIcon/MoodIcon";
 import { useState } from "react";
 import moodCaption from "../functions/moodCaptions";
 import { getFeelings } from "../functions/feelings";
-import Entry from "../models/storage/Entry";
+import Entry from "../models/entry/Entry";
 import AddEntryModalStep from "../components/AddEntryModal/AddEntryModalStep";
 import AddFactorsPage from "./AddFactorsPage";
 

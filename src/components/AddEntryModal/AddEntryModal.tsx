@@ -1,6 +1,6 @@
 import { IonModal, IonNav } from "@ionic/react";
 import { useContext, useRef } from "react";
-import Entry from "../../models/storage/Entry";
+import Entry from "../../models/entry/Entry";
 import AddMoodPage from "../../pages/AddMoodPage";
 import EntryService from "../../services/EntryService";
 import StorageContext from "../../models/StorageContext";
@@ -23,7 +23,7 @@ export default ({presentingElement, isOpen, close}: Props) => {
     const entry: Entry = {
         mood: 0,
         feelings: [],
-        factors: [],
+        triggers: [],
         comment: '',
         date: new Date(),
     };

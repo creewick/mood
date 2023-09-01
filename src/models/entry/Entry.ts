@@ -1,6 +1,6 @@
 export default interface Entry {
     mood: number;
-    factors: string[];
+    triggers: string[];
     feelings: string[];
     comment: string;
     date: Date;

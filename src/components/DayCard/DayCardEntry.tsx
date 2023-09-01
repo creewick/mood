@@ -1,7 +1,7 @@
 import { IonItemSliding, IonItem, IonRow, IonCol, IonLabel, IonItemOptions, IonItemOption, IonCardSubtitle, IonIcon, IonThumbnail, IonGrid, IonAlert } from "@ionic/react";
 import moodCaptions from "../../functions/moodCaptions";
 import MoodIcon from "../MoodIcon/MoodIcon";
-import Entry from "../../models/storage/Entry";
+import Entry from "../../models/entry/Entry";
 import "./DayCard.css";
 import { useContext, useState } from "react";
 import StorageContext from "../../models/StorageContext";
@@ -14,7 +14,7 @@ interface Props {
 export default ({ entry }: Props) => {
     const [showAlert, setShowAlert] = useState(false);
     const time = entry.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    const tags = entry.feelings.concat(entry.factors).join(', ');
+    const tags = entry.feelings.concat(entry.triggers).join(', ');
     const entryService = new EntryService(useContext(StorageContext));
 
     return (

@@ -1,8 +1,8 @@
 import { Storage as IonicStorage } from "@ionic/storage";
-import EntriesByYear from "../models/storage/EntriesByYear";
-import EntriesByMonth from "../models/storage/EntriesByMonth";
-import EntriesByDay from "../models/storage/EntriesByDay";
-import Entry from "../models/storage/Entry";
+import EntriesByYear from "../models/entry/EntriesByYear";
+import EntriesByMonth from "../models/entry/EntriesByMonth";
+import EntriesByDay from "../models/entry/EntriesByDay";
+import Entry from "../models/entry/Entry";
 
 
 export default class EntryService {
@@ -67,9 +67,5 @@ export default class EntryService {
 
     public unsubscribe(callback: (date: Date) => void): void {
         EntryService.onChanged = EntryService.onChanged.filter((c) => c !== callback);
-    }
-
-    public async clear(): Promise<void> {
-        await this.storage.clear();
     }
 }

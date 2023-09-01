@@ -3,7 +3,7 @@ import MoodIcon from "../components/MoodIcon/MoodIcon";
 import { useState } from "react";
 import moodCaption from "../functions/moodCaptions";
 import getFactorGroups from "../functions/factors";
-import Entry from "../models/storage/Entry";
+import Entry from "../models/entry/Entry";
 import AddEntryModalStep from "../components/AddEntryModal/AddEntryModalStep";
 import AddCommentPage from "./AddCommentPage";
 
@@ -18,7 +18,7 @@ interface Props {
 export default ({entry, colors, close, prevTitle, save}: Props) => {
     const [factors, setFactors] = useState<string[]>([]);
     const title = 'Влияние';
-    const nextComponent = <AddCommentPage {...{colors, close, save, prevTitle: title, entry: {...entry, factors}}} />;
+    const nextComponent = <AddCommentPage {...{colors, close, save, prevTitle: title, entry: {...entry, triggers: factors}}} />;
     const canSkip = true;
     
     const onClick = (factor: string) => {
@@ -40,7 +40,7 @@ export default ({entry, colors, close, prevTitle, save}: Props) => {
     );
 
     const onSave = async () => {
-        await save({...entry, factors});
+        await save({...entry, triggers: factors});
     }
 
     return (
