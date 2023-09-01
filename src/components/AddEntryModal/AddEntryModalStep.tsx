@@ -1,4 +1,5 @@
 import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonButton, IonContent, IonFooter, IonNavLink } from "@ionic/react"
+import ColorService from "../../services/ColorService";
 
 interface Props {
     children: React.ReactNode;
@@ -7,7 +8,7 @@ interface Props {
 
     title: string;
     prevTitle?: string;
-    colors: any;
+    mood: number;
 
     close: () => void;
     save?: () => Promise<void>;
@@ -16,29 +17,29 @@ interface Props {
     canSkip?: boolean;
 }
 
-export default ({children, footer, nextComponent, title, prevTitle, colors, save, close, canSave=false, canSkip=false}: Props) => {
+export default ({children, footer, nextComponent, title, prevTitle, mood, save, close, canSave=false, canSkip=false}: Props) => {
     const headerStyle = {
-        '--background': colors.background
+        '--background': ColorService.backgroundHex(mood),
     };
 
-    const contentStyle = {
-        '--background': `radial-gradient(${colors.backgroundSecondary} 0%, ${colors.background} 70%)`,
+    const contentStyle = {  // тут был backgroundSecondary 0%
+        '--background': `radial-gradient(${ColorService.background(mood)} 0%, ${ColorService.backgroundHex(mood)} 70%)`,
     }
     
     const footerStyle = {
-        'background': colors.background,
+        'background': ColorService.backgroundHex(mood),
         'margin': '0px'
     }
 
     const buttonStyle = {
-        '--background': colors.wave,
-        '--background-hover': colors.wave,
-        '--background-activated': colors.primary,
-        '--background-focused': colors.primary,
+        '--background': ColorService.waveHex(mood),
+        '--background-hover': ColorService.waveHex(mood),
+        '--background-activated': ColorService.primaryHex(mood),
+        '--background-focused': ColorService.primaryHex(mood),
     }  
 
     const linkStyle = {
-        '--color': colors.wave,
+        '--color': ColorService.waveHex(mood),
     }
 
     const onClick = async () => {

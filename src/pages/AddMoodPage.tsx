@@ -1,5 +1,4 @@
 import { IonCardTitle } from "@ionic/react";
-import getColors from "../functions/moodColors";
 import MoodIcon from "../components/MoodIcon/MoodIcon";
 import MoodInput from "../components/MoodInput/MoodInput";
 import { useState } from "react";
@@ -15,13 +14,12 @@ interface Props {
 
 export default ({entry, close, save}: Props) => {
     const [mood, setMood] = useState(entry.mood ?? 0);
-    const colors = getColors(mood ?? 0);
     const title = "Настроение";
-    const nextComponent = <AddFeelingsPage {...{colors, close, save, prevTitle: title, entry: {...entry, mood}}} />;
+    const nextComponent = <AddFeelingsPage {...{mood, close, save, prevTitle: title, entry: {...entry, mood}}} />;
     const footer = <MoodInput mood={mood} setMood={setMood} className="ion-padding-horizontal" />;
 
     return (
-        <AddEntryModalStep {...{footer, nextComponent, title, colors, close}}>
+        <AddEntryModalStep {...{footer, nextComponent, title, mood, close}}>
             <IonCardTitle className="ion-padding-top ion-text-center">
                 Как Вы чувствуете себя сейчас?
             </IonCardTitle>

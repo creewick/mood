@@ -37,8 +37,8 @@ export default () => {
         const data = await settingsService.exportJson();
 
         var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
-        element.setAttribute('download', 'mood-export-data.json');
+        element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(data));
+        element.setAttribute('download', 'mood-export-data');
         element.style.display = 'none';
 
         document.body.appendChild(element);
