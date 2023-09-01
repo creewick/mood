@@ -1,11 +1,11 @@
-import { IonItemSliding, IonItem, IonRow, IonCol, IonLabel, IonItemOptions, IonItemOption, IonCardSubtitle, IonIcon, IonThumbnail, IonGrid, IonAlert } from "@ionic/react";
-import moodCaptions from "../../functions/moodCaptions";
+import { IonItemSliding, IonItem, IonRow, IonCol, IonLabel, IonItemOptions, IonItemOption, IonThumbnail, IonGrid, IonAlert } from "@ionic/react";
 import MoodIcon from "../MoodIcon/MoodIcon";
 import Entry from "../../models/entry/Entry";
 import "./DayCard.css";
 import { useContext, useState } from "react";
 import StorageContext from "../../models/StorageContext";
 import EntryService from "../../services/EntryService";
+import MoodService from "../../services/MoodService";
 
 interface Props {
     entry: Entry;
@@ -13,8 +13,9 @@ interface Props {
 
 export default ({ entry }: Props) => {
     const [showAlert, setShowAlert] = useState(false);
+    const moodService = new MoodService();
     const time = entry.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    const tags = entry.feelings.concat(entry.triggers).join(', ');
+    // const tags = entry.feelings.concat(entry.triggers).join(', ');
     const entryService = new EntryService(useContext(StorageContext));
 
     return (
@@ -28,7 +29,7 @@ export default ({ entry }: Props) => {
                     <IonRow>
                         <IonCol>
                             <IonLabel className="day-card-mood">
-                                {moodCaptions(entry.mood)}
+                                {moodService.getMoodCaption(entry.mood)}
                             </IonLabel>
                         </IonCol>
                         <IonCol style={{maxWidth: '48px', minWidth: '48px'}}>
@@ -40,7 +41,7 @@ export default ({ entry }: Props) => {
                     <IonRow>
                         <IonCol>
                             <IonLabel className="day-card-tags">
-                                {tags}
+                                {/* {tags} */}
                             </IonLabel>
                         </IonCol>
                     </IonRow>

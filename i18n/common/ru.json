@@ -1,7 +1,25 @@
 {
-    "tabEntries": "Записи",
-    "tabCalendar": "Календарь",
-    "tabAddEntry": "Добавить",
-    "tabHighlights": "Подборки",
-    "tabSettings": "Настройки"
+    "tabs": {
+        "entries": "Записи",
+        "calendar": "Календарь",
+        "addEntry": "Добавить",
+        "highlights": "Подборки",
+        "settings": "Настройки"
+    },
+    "entries": {
+        "moodOfTheDay": "Настроение дня",
+        "noEntries": "Нет записей"
+    },
+    "modal": {
+        "mood": "Настроение",
+        "feelings": "Чувства",
+        "triggers": "Триггеры",
+        "comment": "Комментарий",
+        "next": "Далее",
+        "done": "Готово",
+        "skipAndSave": "Пропустить и сохранить",
+        "howDoYouFellRightNow": "Как ты себя чувствуешь прямо сейчас?",
+        "whatBestDescribesThisFeeling": "Что лучше всего описывает это чувство?",
+        "whatIsHavingTheBiggestImpactOnYou": "Что оказывает наибольшее влияние?"
+    }
 }

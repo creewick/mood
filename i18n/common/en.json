@@ -1,7 +1,25 @@
 {
-    "tabEntries": "Entries",
-    "tabCalendar": "Calendar",
-    "tabAddEntry": "Add Entry",
-    "tabHighlights": "Highlights",
-    "tabSettings": "Settings"
+    "tabs": {
+        "entries": "Entries",
+        "calendar": "Calendar",
+        "addEntry": "Add Entry",
+        "highlights": "Highlights",
+        "settings": "Settings"
+    },
+    "entries": {
+        "moodOfTheDay": "Mood of the Day",
+        "noEntries": "No entries"
+    },
+    "modal": {
+        "mood": "Mood",
+        "feelings": "Feelings",
+        "triggers": "Triggers",
+        "comment": "Comment",
+        "next": "Next",
+        "done": "Done",
+        "skipAndSave": "Skip & Save",
+        "howDoYouFellRightNow": "How do you feel right now?",
+        "whatBestDescribesThisFeeling": "What best describes this feeling?",
+        "whatIsHavingTheBiggestImpactOnYou": "What's having the biggest impact on you?"
+    }
 }

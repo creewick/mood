@@ -77,7 +77,7 @@ export default () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>
-            <Translation path="tabEntries"/>
+            <Translation path="tabs.entries"/>
           </IonTitle>
         </IonToolbar>
       </IonHeader>

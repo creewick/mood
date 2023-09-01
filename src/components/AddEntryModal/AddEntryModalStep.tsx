@@ -1,29 +1,32 @@
 import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonButton, IonContent, IonFooter, IonNavLink } from "@ionic/react"
 import ColorService from "../../services/ColorService";
+import { Translation, TranslationProvider } from "i18nano";
+import useLocale from "../../services/useLocale";
+import { translations } from "../../../i18n";
 
 interface Props {
     children: React.ReactNode;
     footer?: React.ReactNode;
     nextComponent?: React.ReactNode;
-
-    title: string;
-    prevTitle?: string;
+    title: React.ReactNode;
+    prevTitle?: React.ReactNode;
     mood: number;
-
     close: () => void;
     save?: () => Promise<void>;
-
     canSave?: boolean;
     canSkip?: boolean;
 }
 
 export default ({children, footer, nextComponent, title, prevTitle, mood, save, close, canSave=false, canSkip=false}: Props) => {
+    const language = useLocale();
     const headerStyle = {
         '--background': ColorService.backgroundHex(mood),
     };
 
-    const contentStyle = {  // тут был backgroundSecondary 0%
-        '--background': `radial-gradient(${ColorService.background(mood)} 0%, ${ColorService.backgroundHex(mood)} 70%)`,
+    const contentStyle = {
+        '--background': `radial-gradient(${
+            ColorService.background(mood).lighten(20).toHexString()} 0%, ${
+            ColorService.backgroundHex(mood)} 70%)`,
     }
     
     const footerStyle = {
@@ -47,12 +50,14 @@ export default ({children, footer, nextComponent, title, prevTitle, mood, save, 
     }
     
     return (
-        <>
+        <TranslationProvider language={language} translations={translations.common}>
             <IonHeader className="ion-no-border">
                 <IonToolbar style={headerStyle}>
                     { prevTitle && 
                         <IonButtons slot="start">
-                            <IonBackButton text={prevTitle} style={linkStyle} />
+                            <IonBackButton style={linkStyle}>
+                                {prevTitle}
+                            </IonBackButton>
                         </IonButtons>
                     }
                     <IonTitle>
@@ -72,7 +77,7 @@ export default ({children, footer, nextComponent, title, prevTitle, mood, save, 
                     { canSkip &&
                         <div className="ion-text-center">
                             <IonButton fill="clear" style={linkStyle} onClick={save}>
-                                Пропустить и сохранить
+                                <Translation path="modal.skipAndSave" />
                             </IonButton>
                         </div>
                     }
@@ -80,10 +85,11 @@ export default ({children, footer, nextComponent, title, prevTitle, mood, save, 
                 <IonNavLink routerDirection="forward" component={() => nextComponent}>
                     <div className="ion-padding" style={footerStyle}>
                         <IonButton style={buttonStyle} onClick={onClick} className="ion-margin-horizontal ion-margin-bottom" expand="block" shape="round">
-                            {nextComponent ? 'Далее' : 'Готово'}
+                            <Translation path={nextComponent ? "modal.next" : "modal.done"} />
                         </IonButton>
                     </div>
                 </IonNavLink>
             </IonFooter>
-        </>);
+        </TranslationProvider>
+    );
 }

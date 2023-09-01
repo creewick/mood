@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
 import { IonReactHashRouter } from '@ionic/react-router';
 import { Storage } from '@ionic/storage';
-import { newspaper, addCircle, cog, settings } from 'ionicons/icons';
+import { newspaper, addCircle, cog } from 'ionicons/icons';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -38,8 +38,8 @@ import { useRef, useEffect, useState } from 'react';
 import AddEntryModal from './components/AddEntryModal/AddEntryModal';
 import SettingsPage from './pages/SettingsPage';
 import { Translation, TranslationProvider } from 'i18nano';
-import { translations, DEFAULT_LANGUAGE } from '../i18n/index';
-import SettingsService from './services/SettingsService';
+import { translations } from '../i18n/index';
+import useLocale from './services/useLocale';
 
 setupIonicReact({mode: 'ios'});
 
@@ -48,9 +48,8 @@ storage.create();
 
 const App: React.FC = () => {
   const [appRef, setAppRef] = useState<HTMLElement | null>();
-  const [language, setLanguage] = useState<string>(DEFAULT_LANGUAGE);
-  const settingsService = new SettingsService(storage);
   const [showModal, setShowModal] = useState(false);
+  const language = useLocale();
   const ref = useRef(null);
 
   const setTheme = async (dark: boolean) => {
@@ -65,7 +64,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setAppRef(ref.current);
-    settingsService.getSettings().then(s => setLanguage(s.language));
   }, []);
 
   return (
@@ -84,7 +82,7 @@ const App: React.FC = () => {
                 <IonTabButton tab="entries" href="/entries">
                   <IonIcon icon={newspaper} />
                   <IonLabel>
-                    <Translation path="tabEntries"/>
+                    <Translation path="tabs.entries"/>
                   </IonLabel>
                 </IonTabButton>
                 {/* <IonTabButton tab="calendar" href="/mood/calendar">
@@ -94,7 +92,7 @@ const App: React.FC = () => {
                 <IonTabButton tab="add" onClick={() => {setShowModal(true);}}>
                   <IonIcon icon={addCircle} />
                   <IonLabel>
-                    <Translation path="tabAddEntry"/>
+                    <Translation path="tabs.addEntry"/>
                   </IonLabel>
                 </IonTabButton>
                 {/* <IonTabButton tab="highlights" href="/mood/highlights">
@@ -104,7 +102,7 @@ const App: React.FC = () => {
                 <IonTabButton tab="settings" href="/settings">
                   <IonIcon icon={cog} />
                   <IonLabel>
-                    <Translation path="tabSettings"/>
+                    <Translation path="tabs.settings"/>
                   </IonLabel>
                 </IonTabButton>
               </IonTabBar>

@@ -1,9 +1,9 @@
-.moodInput {
+.mood-input {
     margin: 0 22px;
-    padding-bottom: 36px;
+    padding-bottom: 8px;
 }
 
-.moodInput::part(bar) {
+.mood-input::part(bar) {
     background: #888;
     opacity: 0.1;
     padding: 0 20px;
@@ -13,30 +13,16 @@
     left: -21px;
 }
 
-.moodInput::part(bar-active) {
+.mood-input::part(bar-active) {
     display: none;
 }
 
-.moodInput::part(knob) {
+.mood-input::part(knob) {
     height: 34px;
     width: 34px;
     left: 8px;
 }
 
-.moodInput::before, .moodInput::after {
-    position: absolute;
+.mood-caption {
     opacity: 0.5;
-    font-size: 12px;
-    font-weight: 700;
-    top: 54px;
-}
-
-.moodInput::before {
-    content: 'НЕПРИЯТНО';
-    left: -10px;
-}
-
-.moodInput::after {
-    content: 'ПРИЯТНО';
-    right: -10px;
 }

@@ -1,9 +1,9 @@
 import { IonText, IonTextarea, IonCard } from "@ionic/react";
-import MoodIcon from "../components/MoodIcon/MoodIcon";
+import MoodIcon from "../../MoodIcon/MoodIcon";
 import { useState } from "react";
-import moodCaption from "../functions/moodCaptions";
-import Entry from "../models/entry/Entry";
-import AddEntryModalStep from "../components/AddEntryModal/AddEntryModalStep";
+import moodCaption from "../../../functions/moodCaptions";
+import Entry from "../../../models/entry/Entry";
+import AddEntryModalStep from "../AddEntryModalStep";
 
 interface Props {
     entry: Entry;

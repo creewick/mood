@@ -1,7 +1,7 @@
 import { IonModal, IonNav } from "@ionic/react";
 import { useContext, useRef } from "react";
 import Entry from "../../models/entry/Entry";
-import AddMoodPage from "../../pages/AddMoodPage";
+import AddMoodPage from "./steps/AddMoodPage";
 import EntryService from "../../services/EntryService";
 import StorageContext from "../../models/StorageContext";
 

@@ -1,4 +1,4 @@
-export enum NevativeFeeling {
+export enum NegativeFeeling {
     Angry = 100,
     Anxious = 101,
     Scared = 102,
@@ -47,5 +47,5 @@ export enum PositiveFeeling {
     Grateful = 313,
 }
 
-export type Feeling = NevativeFeeling | NeutralFeeling | PositiveFeeling;
+export type Feeling = NegativeFeeling | NeutralFeeling | PositiveFeeling;
 

@@ -1,39 +1,39 @@
-.small {
+.mood-icon .small {
     transform-origin: 50% 50%;
     transform: scale(0.15);
 }
 
-.wave {
+.mood-icon .wave {
     transform-origin: 50% 50%;
     transform: translateZ(0);
     opacity: 0;
     will-change: transform, opacity;
 }
 
-.wave1:not(.animate) {
+.mood-icon .wave1:not(.animate) {
     transform: scale(2.25);
     opacity: 0.2;
 }
 
-.wave2:not(.animate) {
+.mood-icon .wave2:not(.animate) {
     transform: scale(2);
     opacity: 0.3;
 }
 
-.wave3:not(.animate) {
+.mood-icon .wave3:not(.animate) {
     transform: scale(1.5);
     opacity: 0.4;
 }
 
-.wave2.animate {
+.mood-icon .wave2.animate {
     animation-delay: 1s;
 }
 
-.wave3.animate {
+.mood-icon .wave3.animate {
     animation-delay: 2s;
 }
 
-.wave.animate {
+.mood-icon .wave.animate {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-fill-mode: forwards;

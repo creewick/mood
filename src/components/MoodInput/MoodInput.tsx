@@ -1,6 +1,6 @@
-import { IonCardTitle, IonRange } from "@ionic/react";
-import './MoodInput.css';
-import moodCaption from "../../functions/moodCaptions";
+import { IonCardSubtitle, IonCardTitle, IonCol, IonRange, IonRow } from "@ionic/react";
+import './moodInput.css';
+import MoodService from "../../services/MoodService";
 
 interface Props {
     mood: number;
@@ -9,16 +9,30 @@ interface Props {
 }
 
 export default ({mood, setMood, className = ''}: Props) => {
+    const moodService = new MoodService();
+
     return (
         <div className={className}>
             <IonCardTitle className="ion-padding-bottom ion-text-center">
-                {moodCaption(mood)}
+                {moodService.getMoodCaption(mood)}
             </IonCardTitle>
             <IonRange
-                className="moodInput"
+                className="mood-input"
                 min={-100} max={100} step={1} value={mood} color="primary" 
                 onIonInput={({ detail }) => setMood(detail.value as number)} 
             />
+            <IonRow>
+                <IonCol className="ion-text-start mood-caption">
+                    <IonCardSubtitle>
+                        {moodService.getMoodCaption(-100)}
+                    </IonCardSubtitle>
+                </IonCol>
+                <IonCol className="ion-text-end mood-caption">
+                    <IonCardSubtitle>
+                        {moodService.getMoodCaption(100)}
+                    </IonCardSubtitle>
+                </IonCol>
+            </IonRow>
         </div>
     );
 }

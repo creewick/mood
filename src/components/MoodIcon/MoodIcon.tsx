@@ -11,7 +11,7 @@ interface Props {
     height?: string;
 }
 
-export default function MoodIcon({ mood, animate, width = '100px', height = '100px'}: Props) {
+export default function MoodIcon({ mood, animate = false, width = '100px', height = '100px'}: Props) {
     const canvasSize = 200;
     const iconRadius = canvasSize / 5;
     const iconScale = 1 - Math.abs(mood) / 400;
@@ -40,7 +40,7 @@ export default function MoodIcon({ mood, animate, width = '100px', height = '100
     const waves = [1, 2, 3].map(index => <MoodIconWave {...{index, mood, path, animate}} />);
 
     return (
-        <svg viewBox={`0 0 ${canvasSize} ${canvasSize}`} width={width} height={height}>
+        <svg className="mood-icon" viewBox={`0 0 ${canvasSize} ${canvasSize}`} width={width} height={height}>
             { gradient }
             <g style={{transformOrigin: '50% 50%', transform: `scale(${iconScale}) rotate(${iconAngle})`}}>
                 { waves }
