@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { Ref, useContext, useEffect, useRef, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import StorageContext from '../models/StorageContext';
 import EntryService from '../services/EntryService';
@@ -21,6 +21,10 @@ export default (props: Props) => {
     loadCards();
   }, []);
 
+  useEffect(() => {
+    cardRef.current?.scrollIntoView({ behavior: 'instant', inline: 'start' });
+  }, [cards]);
+
   const loadCards = async () => {
     const newCards: DaySummaryCardProps[] = [];
 
@@ -32,8 +36,6 @@ export default (props: Props) => {
   
     setCards([...newCards, ...cards]);
     setMinDay(minDay - 7);
-
-    cardRef.current?.scrollIntoView({ behavior: 'instant', inline: 'start' });
   };
 
   useEffect(() => {
@@ -70,8 +72,7 @@ export default (props: Props) => {
       <IonContent>
         <div ref={scrollRef} style={{display: 'flex', overflowX: 'scroll', scrollSnapType: 'x mandatory', height: '100%'}}>
           <DayCardPlaceholder />
-          <DayCard date={addDays(cards[0]?.date, -1)} entries={[]} />
-          { cards.map(props => <DayCard {...props} ref={props === cards[6] ? cardRef : undefined} />) }
+          { cards.map((props, i) => <DayCard {...props} ref={i === Math.min(cards.length - 1, 7) ? cardRef : undefined} />) }
           <DayCardPlaceholder />
         </div>
       </IonContent>
