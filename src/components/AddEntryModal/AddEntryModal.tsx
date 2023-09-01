@@ -1,17 +1,23 @@
 import { IonModal, IonNav } from "@ionic/react";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import Entry from "../../models/storage/Entry";
 import AddMoodPage from "../../pages/AddMoodPage";
+import EntryService from "../../services/EntryService";
+import StorageContext from "../../models/StorageContext";
 
 interface Props {
     presentingElement: HTMLElement; 
     isOpen: boolean;
     close: () => void;
-    save: (entry: Entry) => Promise<void>;
 }
 
-export default ({presentingElement, isOpen, close, save}: Props) => {
+export default ({presentingElement, isOpen, close}: Props) => {
     const ref = useRef<HTMLIonModalElement>(null);
+    const entryService = new EntryService(useContext(StorageContext));
+    const save = async (entry: Entry) => {
+        await entryService.create(entry);
+        close();
+    }
     const onDidDismiss = close;
     const canDismiss = true;
     const entry: Entry = {

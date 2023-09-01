@@ -88,14 +88,18 @@ export default function MoodIcon({ mood, animate, width = '100px', height = '100
                 </radialGradient>
             </defs>
             <g style={{transformOrigin: '50% 50%', transform: `scale(${scale}) rotate(${angle})`}}>
-                <path d={path} fill={colors.primary} className="big" />
-                {[1,2,3].map(i => 
-                    <g style={{transformOrigin: '50% 50%', transform: getWaveTransform(mood, i)}}>
-                        <path key={i} d={path} fill={colors.wave} className={getWaveClass(mood, i)} stroke={colors.secondary} strokeWidth="1" />
-                    </g>
-                )}
-                <path d={path} fill="url(#gradient)" className="big" stroke={colors.secondary} />
-                <path d={path} fill={colors.secondary} className="small" />
+                { mood !== undefined &&
+                <>
+                    <path d={path} fill={colors.primary} className="big" />
+                    {[1,2,3].map(i => 
+                        <g style={{transformOrigin: '50% 50%', transform: getWaveTransform(mood, i)}}>
+                            <path key={i} d={path} fill={colors.wave} className={getWaveClass(mood, i)} stroke={colors.secondary} strokeWidth="1" />
+                        </g>
+                    )}
+                    <path d={path} fill="url(#gradient)" className="big" stroke={colors.secondary} />
+                    <path d={path} fill={colors.secondary} className="small" />
+                </>
+                }
             </g>
         </svg>
     );

@@ -4,14 +4,19 @@ interface Props {
     children: React.ReactNode;
     footer?: React.ReactNode;
     nextComponent?: React.ReactNode;
+
     title: string;
+    prevTitle?: string;
     colors: any;
-    prevButton?: string;
+
     close: () => void;
-    onNextClick?: () => void;
+    save?: () => Promise<void>;
+
+    canSave?: boolean;
+    canSkip?: boolean;
 }
 
-export default ({children, footer, title, colors, prevButton, nextComponent, onNextClick, close}: Props) => {
+export default ({children, footer, nextComponent, title, prevTitle, colors, save, close, canSave=false, canSkip=false}: Props) => {
     const headerStyle = {
         '--background': colors.background
     };
@@ -31,21 +36,29 @@ export default ({children, footer, title, colors, prevButton, nextComponent, onN
         '--background-activated': colors.primary,
         '--background-focused': colors.primary,
     }  
+
+    const linkStyle = {
+        '--color': colors.wave,
+    }
+
+    const onClick = async () => {
+        if (save && canSave) await save();
+    }
     
     return (
         <>
             <IonHeader className="ion-no-border">
                 <IonToolbar style={headerStyle}>
-                    { prevButton && 
+                    { prevTitle && 
                         <IonButtons slot="start">
-                            <IonBackButton text={prevButton} />
+                            <IonBackButton text={prevTitle} style={linkStyle} />
                         </IonButtons>
                     }
                     <IonTitle>
                         {title}
                     </IonTitle>
                     <IonButtons slot="end">
-                        <IonButton onClick={close}>Отменить</IonButton>
+                        <IonButton onClick={close} style={linkStyle}>Отменить</IonButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
@@ -55,10 +68,17 @@ export default ({children, footer, title, colors, prevButton, nextComponent, onN
             <IonFooter>
                 <div style={footerStyle} className="ion-padding-horizontal">
                     {footer}
+                    { canSkip &&
+                        <div className="ion-text-center">
+                            <IonButton fill="clear" style={linkStyle} onClick={save}>
+                                Пропустить и сохранить
+                            </IonButton>
+                        </div>
+                    }
                 </div>
                 <IonNavLink routerDirection="forward" component={() => nextComponent}>
                     <div className="ion-padding" style={footerStyle}>
-                        <IonButton style={buttonStyle} onClick={onNextClick} className="ion-margin-horizontal ion-margin-bottom" expand="block" shape="round">
+                        <IonButton style={buttonStyle} onClick={onClick} className="ion-margin-horizontal ion-margin-bottom" expand="block" shape="round">
                             {nextComponent ? 'Далее' : 'Готово'}
                         </IonButton>
                     </div>

@@ -12,20 +12,14 @@ interface Props {
     colors: any;
     close: () => void;
     save: (entry: Entry) => Promise<void>;
-    prevButton: string;
+    prevTitle: string;
 }
 
-export default ({entry, colors, close, prevButton, save}: Props) => {
+export default ({entry, colors, close, prevTitle, save}: Props) => {
     const [factors, setFactors] = useState<string[]>([]);
     const title = 'Влияние';
-    const nextComponent = <AddCommentPage {...{colors, close, save, prevButton: title, entry: {...entry, factors}}} />;
-    const footer = (
-        <div className="ion-text-center">
-            <IonButton fill="clear" onClick={() => save({...entry, factors})}>
-                Пропустить и сохранить
-            </IonButton>
-        </div>
-    );
+    const nextComponent = <AddCommentPage {...{colors, close, save, prevTitle: title, entry: {...entry, factors}}} />;
+    const canSkip = true;
     
     const onClick = (factor: string) => {
         setFactors(factors.includes(factor)
@@ -45,9 +39,12 @@ export default ({entry, colors, close, prevButton, save}: Props) => {
         </div>
     );
 
-    
+    const onSave = async () => {
+        await save({...entry, factors});
+    }
+
     return (
-        <AddEntryModalStep {...{colors, close, title, footer, prevButton, nextComponent}}>
+        <AddEntryModalStep {...{nextComponent, title, prevTitle, colors, save: onSave, close, canSkip}}>
             <MoodIcon mood={entry.mood} width="100%" height="max(100px, 25%)" animate={false} />
             <h3 className="title ion-text-center">
                 { moodCaption(entry.mood) }

@@ -1,78 +1,79 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import AddEntryModal from '../components/AddEntryModal/AddEntryModal';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import StorageContext from '../models/StorageContext';
-import Entry from '../models/storage/Entry';
 import EntryService from '../services/EntryService';
 import DaySummaryCardProps from '../components/DayCard/DayCardProps';
 import DayCard from '../components/DayCard/DayCard';
 import DayCardPlaceholder from '../components/DayCard/DayCardPlaceholder';
 
-export default () => {
-  const [pageRef, setPageRef] = useState<HTMLElement | null>();
-  const [showModal, setShowModal] = useState(false);
-  const [days, setDays] = useState<DaySummaryCardProps[]>([]);
-  const entryService = new EntryService(useContext(StorageContext));
+interface Props {
+  showModal: boolean;
+}
 
-  const page = useRef(null);
-  const today = useRef<HTMLIonCardElement>(null);
+export default (props: Props) => {
+  const [cards, setCards] = useState<DaySummaryCardProps[]>([]);
+  const [minDay, setMinDay] = useState<number>(0);
+  const entryService = new EntryService(useContext(StorageContext));
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLIonCardElement>(null);
 
   useEffect(() => {
-    setPageRef(page.current);
     loadCards();
   }, []);
 
   const loadCards = async () => {
-    const cards = [-6, -5, -4, -3, -2, -1, 0].map(async d => {
-      const date = new Date();
-      date.setDate(date.getDate() + d);
+    const newCards: DaySummaryCardProps[] = [];
+
+    for (const days of [-6, -5, -4, -3, -2, -1, 0]) {
+      const date = addDays(new Date(), days + minDay);
       const entries = await entryService.getEntriesByDay(date);
-      return { date, entries };
-    });
+      newCards.push({ date, entries });
+    }
+  
+    setCards([...newCards, ...cards]);
+    setMinDay(minDay - 7);
 
-    const days = await Promise.all(cards);
-
-    setTimeout(() => setDays(days), 0);
+    cardRef.current?.scrollIntoView({ behavior: 'instant', inline: 'start' });
   };
 
-  const save = async (entry: Entry) => {
-    await entryService.create(entry);
-    await loadCards();
-    setShowModal(false);
-  }
+  useEffect(() => {
+    const handleScroll = async () => {
+      if (scrollRef.current && scrollRef.current.scrollLeft === 0) {
+        await loadCards();
+      }
+    };
 
-  const clear = async () => {
-    await entryService.clear();
-    location.reload();
+    if (scrollRef.current) {
+      scrollRef.current.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (scrollRef.current) {
+        scrollRef.current.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [scrollRef, cards, minDay]);
+
+  const addDays = (date: Date = new Date(), days: number): Date => {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
   }
 
   return (
-    <IonPage ref={page}>
+    <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Настроение</IonTitle>
+          <IonTitle>Записи</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Настроение</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <div style={{display: 'flex', overflowX: 'scroll', scrollSnapType: 'x mandatory'}}>
+      <IonContent>
+        <div ref={scrollRef} style={{display: 'flex', overflowX: 'scroll', scrollSnapType: 'x mandatory', height: '100%'}}>
           <DayCardPlaceholder />
-          { days.map(props => <DayCard {...props} />) }
+          <DayCard date={addDays(cards[0]?.date, -1)} entries={[]} />
+          { cards.map(props => <DayCard {...props} ref={props === cards[6] ? cardRef : undefined} />) }
           <DayCardPlaceholder />
         </div>
-        <div className="ion-padding-top">
-          <IonButton className="ion-padding-start" onClick={() => setShowModal(true)}>
-            Внести запись
-          </IonButton>
-          <IonButton className="ion-padding-start" color="danger" onClick={clear}>
-            Очистить всё
-          </IonButton>
-        </div>
-        <AddEntryModal isOpen={showModal} close={() => setShowModal(false)} save={save} presentingElement={pageRef!} />
       </IonContent>
     </IonPage>
   );

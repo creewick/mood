@@ -10,19 +10,21 @@ interface Props {
     colors: any;
     close: () => void;
     save: (entry: Entry) => Promise<void>;
-    prevButton: string;
+    prevTitle: string;
 }
 
-export default ({entry, colors, close, prevButton, save}: Props) => {
+export default ({entry, colors, close, prevTitle, save}: Props) => {
     const [comment, setComment] = useState<string>('');
     const title = 'Комментарий';
+    const canSkip = true;
+    const canSave = true;
 
-    const saveEntry = async () => {
+    const onSave = async () => {
         await save({...entry, comment});
     }
     
     return (
-        <AddEntryModalStep {...{colors, close, title, prevButton, onSaveClick: saveEntry, onNextClick: saveEntry}}>
+        <AddEntryModalStep {...{title, prevTitle, colors, save: onSave, close, canSkip, canSave}}>
             <MoodIcon mood={entry.mood} width="100%" height="max(100px, 25%)" animate={false} />
             <h3 className="title ion-text-center">
                 { moodCaption(entry.mood) }

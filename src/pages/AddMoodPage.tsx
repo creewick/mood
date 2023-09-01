@@ -17,11 +17,11 @@ export default ({entry, close, save}: Props) => {
     const [mood, setMood] = useState(entry.mood ?? 0);
     const colors = getColors(mood ?? 0);
     const title = "Настроение";
-    const nextComponent = <AddFeelingsPage {...{colors, close, save, prevButton: title, entry: {...entry, mood}}} />;
+    const nextComponent = <AddFeelingsPage {...{colors, close, save, prevTitle: title, entry: {...entry, mood}}} />;
     const footer = <MoodInput mood={mood} setMood={setMood} className="ion-padding-horizontal" />;
 
     return (
-        <AddEntryModalStep {...{colors, close, title, footer, nextComponent}}>
+        <AddEntryModalStep {...{footer, nextComponent, title, colors, close}}>
             <IonCardTitle className="ion-padding-top ion-text-center">
                 Как Вы чувствуете себя сейчас?
             </IonCardTitle>

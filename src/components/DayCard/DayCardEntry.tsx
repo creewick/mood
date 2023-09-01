@@ -22,11 +22,11 @@ export default ({ entry, colors }: Props) => {
     }
 
     return (
-        <IonItemSliding>
-            <IonItem style={{'--background': colors.background}}>
-                <IonRow>
-                    <IonCol size="2">
-                        <MoodIcon mood={entry.mood} width="100%" height="48px" animate={false} />
+        <IonItemSliding> 
+            <IonItem>
+                <IonRow style={{width: '100%'}}>
+                    <IonCol style={{maxWidth: '48px'}} className="ion-margin-end">
+                        <MoodIcon mood={entry.mood} width="48px" height="48px" animate={false} />
                     </IonCol>
                     <IonCol style={{marginTop: '8px'}}>
                         <div className="day-card-mood">
@@ -36,7 +36,7 @@ export default ({ entry, colors }: Props) => {
                             {tags}
                         </div>
                     </IonCol>
-                    <IonCol size="2" style={{marginTop: '8px'}}>
+                    <IonCol style={{marginTop: '8px'}}>
                         <div className="day-card-tags ion-text-end">
                             {time}
                         </div>

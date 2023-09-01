@@ -1,17 +1,17 @@
 :root {
     --day-card-margin: 5px;
-    --day-card-100-width: 36px;
+    --day-card-width: clamp(300px, calc(100% - 36px), 600px);
 }
 
 .day-card {
     margin: 16px var(--day-card-margin);
-    height: calc(100vh - 220px);
-    min-width: clamp(300px, calc(100% - var(--day-card-100-width)), 600px);
+    min-width: var(--day-card-width);
     scroll-snap-align: center;
+    border-radius: 16px;
 }
 
 .day-card-placeholder {
-    min-width: calc((var(--day-card-100-width) - var(--day-card-margin)) / 2);
+    min-width: calc((100% - var(--day-card-width) - 2 * var(--day-card-margin)) / 2);
 }
 
 .day-card-mood {
@@ -21,4 +21,8 @@
 .day-card-tags {
     opacity: 0.5;
     font-size: 0.9rem;
+}
+
+.day-card ion-item {
+    --background: var(--ion-card-background, white);
 }
