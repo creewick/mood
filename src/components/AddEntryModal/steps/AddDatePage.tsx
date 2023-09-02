@@ -1,5 +1,5 @@
 
-import { IonCardTitle, IonCol, IonDatetime, IonDatetimeButton, IonModal, IonRow } from "@ionic/react";
+import { IonCardTitle, IonCol, IonDatetime, IonRow } from "@ionic/react";
 import { Translation } from "i18nano";
 import { useState } from "react";
 import Entry from "../../../models/entry/Entry";
@@ -28,7 +28,7 @@ export default ({entry, close, save}: Props) => {
             </IonCardTitle>
             <IonRow>
                 <IonCol className="ion-text-center">
-                    <IonDatetime style={{borderRadius: '12px', display: 'inline-block'}} preferWheel={true} value={date} max={isoDate} onIonChange={({detail}) => setDate(detail.value as string)} />
+                    <IonDatetime style={{borderRadius: '12px'}} size="cover" preferWheel={true} value={date} max={isoDate} onIonChange={({detail}) => setDate(detail.value as string)} />
             
                 </IonCol>
             </IonRow>
