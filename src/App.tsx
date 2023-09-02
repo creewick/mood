@@ -2,7 +2,7 @@ import {
   IonApp,
   setupIonicReact
 } from '@ionic/react';
-import { IonReactHashRouter } from '@ionic/react-router';
+import { IonReactHashRouter, IonReactRouter } from '@ionic/react-router';
 import { Storage } from '@ionic/storage';
 
 /* Core CSS required for Ionic components to work properly */
@@ -31,17 +31,23 @@ import Routes from './routes/Routes';
 
 setupIonicReact({mode: 'ios'});
 
+
 const storage = new Storage();
 storage.create();
 
-export default () => (
-  <TranslationProvider translations={translations.common} language={defaultLanguage}>
-    <StorageContext.Provider value={storage}>
-      <IonApp>
-        <IonReactHashRouter>
-          <Routes />
-        </IonReactHashRouter>
-      </IonApp>
-    </StorageContext.Provider>
-  </TranslationProvider>
-);
+export default () => {
+  // const isDevelopment = process.env.NODE_ENV === 'development';
+  // const AppRouter = isDevelopment ? IonReactRouter : IonReactHashRouter;
+
+  return (
+    <TranslationProvider translations={translations.common} language={defaultLanguage}>
+      <StorageContext.Provider value={storage}>
+        <IonApp>
+          <IonReactHashRouter>
+            <Routes />
+          </IonReactHashRouter>
+        </IonApp>
+      </StorageContext.Provider>
+    </TranslationProvider>
+  );
+};

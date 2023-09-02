@@ -11,7 +11,7 @@ export default () => {
     const settingsService = new SettingsService(useContext(StorageContext));
     const [present, dismiss] = useIonLoading();
     const t = useTranslation();
-    const {change, lang} = useTranslationChange();
+    const {change, preload, lang} = useTranslationChange();
 
     const renderEraseDataAlert = () => (
         <IonAlert 
@@ -53,9 +53,11 @@ export default () => {
     }
 
     const setLanguage = async (e: any) => {
+        const language = e.detail.value;
         const settings = await settingsService.getSettings();
-        await settingsService.setSettings({...settings, language: e.detail.value});
-        change(e.detail.value);
+        await settingsService.setSettings({...settings, language});
+        preload(language);
+        change(language);
     }
 
     return (
