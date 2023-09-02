@@ -1,26 +1,29 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonNote, IonItem, IonLabel, IonAlert, IonToggle, IonIcon, useIonLoading } from "@ionic/react";
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonNote, IonItem, IonLabel, IonAlert, IonToggle, IonIcon, useIonLoading, IonSelect, IonSelectOption } from "@ionic/react";
 import { useContext } from "react";
 import StorageContext from "../models/StorageContext";
 import "./SettingsPage.css";
 import * as json from "../../package.json";
 import { contrastOutline, logInOutline, logOutOutline, refreshOutline, trashOutline } from "ionicons/icons";
 import SettingsService from "../services/SettingsService";
+import { Translation, useTranslation, useTranslationChange } from "i18nano";
 
 export default () => {
     const settingsService = new SettingsService(useContext(StorageContext));
     const [present, dismiss] = useIonLoading();
+    const t = useTranslation();
+    const {change, lang} = useTranslationChange();
 
     const renderEraseDataAlert = () => (
         <IonAlert 
             trigger="erase-data" 
-            header="Удалить все данные?"
-            message="Восстановить данные будет невозможно"
+            header={t('actions.deleteAllData') + '?'}
+            message={t('actions.youCantUndoThisAction')}
             buttons={[
                 {
-                    text: 'Отмена',
+                    text: t('actions.cancel'),
                     role: 'cancel'
                 }, {
-                    text: 'Удалить',
+                    text: t('actions.delete'),
                     role: 'destructive',
                     handler: async () => {
                         await settingsService.clear();
@@ -32,7 +35,7 @@ export default () => {
     );
 
     const exportJson = async () => {
-        await present({message: "Экспорт данных..."});
+        await present({message: t('settings.exportData')});
 
         const data = await settingsService.exportJson();
 
@@ -49,56 +52,76 @@ export default () => {
         await dismiss();
     }
 
+    const setLanguage = async (e: any) => {
+        const settings = await settingsService.getSettings();
+        await settingsService.setSettings({...settings, language: e.detail.value});
+        change(e.detail.value);
+    }
+
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Настройки</IonTitle>
+                    <IonTitle>
+                        <Translation path="tabs.settings" />
+                    </IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding-vertical">
                 <IonNote className="ion-padding-start ion-margin-start ion-text-uppercase">
-                    Оформление
+                    <Translation path="settings.language" />
+                </IonNote>
+                <IonList inset={true}>
+                    <IonItem color="light">
+                    <Translation path="settings.language" />
+                    <IonSelect slot="end" interface="popover" value={lang} onIonChange={setLanguage}>
+                        <IonSelectOption value="en">{t('languages.en')}</IonSelectOption>
+                        <IonSelectOption value="ru">{t('languages.ru')}</IonSelectOption>
+                    </IonSelect>
+                    </IonItem>
+                </IonList>
+                <IonNote className="ion-padding-start ion-margin-start ion-text-uppercase">
+                    <Translation path="settings.appearance" />
                 </IonNote>
                 <IonList inset={true}>
                     <IonItem color="light">
                         <IonIcon slot="start" icon={contrastOutline} />
-                        Темное
+                        <Translation path="settings.dark" />
                         <IonToggle slot="end" color="success" />
                     </IonItem>
                     <IonItem color="light">
                         <IonIcon slot="start" icon={refreshOutline} />
-                        Автоматически
+                        <Translation path="settings.auto" />
                         <IonToggle slot="end" color="success" />
                     </IonItem>
                 </IonList>
                 <IonNote className="ion-padding-start ion-margin-start ion-text-uppercase">
-                    Данные
+                    <Translation path="settings.data" />
                 </IonNote>
                 <IonList inset={true}>
                     <IonItem button detail={false} color="light">
                         <IonIcon slot="start" icon={logInOutline} />
                         <IonLabel>
-                            Импорт данных
+                            <Translation path="settings.importData" />
                         </IonLabel>
                     </IonItem>
                     <IonItem button detail={false} onClick={exportJson} color="light">
                         <IonIcon slot="start" icon={logOutOutline} />
                         <IonLabel>
-                            Экспорт данных
+                            <Translation path="settings.exportData" />
                         </IonLabel>
                     </IonItem>
                     <IonItem button detail={false} id="erase-data" color="light">
                         <IonIcon slot="start" color="danger" icon={trashOutline} />
                         <IonLabel color="danger">
-                            Удалить все данные
+                            <Translation path="actions.deleteAllData" />
                         </IonLabel>
                         { renderEraseDataAlert() }
                     </IonItem>
                 </IonList>
                 <div className="ion-text-center">
                     <IonNote>
-                        Версия {json.version}
+                        <Translation path="settings.version" /> {json.version}
                     </IonNote>
                 </div>
             </IonContent>

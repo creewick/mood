@@ -17,7 +17,7 @@ interface Props {
 
 export default ({entry, close, save}: Props) => {
     const [mood, setMood] = useState(entry.mood ?? 0);
-    const title = <Translation path="modal.mood" />;
+    const title = 'modal.mood';
     const nextComponent = <AddFeelingsPage {...{close, save, prevTitle: title, entry: {...entry, mood}}} />;
     const footer = <MoodInput mood={mood} setMood={setMood} className="ion-padding-horizontal" />;
 

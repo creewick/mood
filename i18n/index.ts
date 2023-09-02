@@ -11,10 +11,6 @@ export const translations = {
         en: () => import('./mood/en.json'),
         ru: () => import('./mood/ru.json'),
     },
-    settings: {
-        en: () => import('./settings/en.json'),
-        ru: () => import('./settings/ru.json'),
-    },
     triggers: {
         en: () => import('./triggers/en.json'),
         ru: () => import('./triggers/ru.json'),

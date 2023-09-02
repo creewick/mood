@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import StorageContext from "../../models/StorageContext";
 import EntryService from "../../services/EntryService";
 import MoodService from "../../services/MoodService";
+import { useTranslation } from "i18nano";
 
 interface Props {
     entry: Entry;
@@ -13,6 +14,7 @@ interface Props {
 
 export default ({ entry }: Props) => {
     const [showAlert, setShowAlert] = useState(false);
+    const t = useTranslation();
     const moodService = new MoodService();
     const time = entry.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     // const tags = entry.feelings.concat(entry.triggers).join(', ');
@@ -48,18 +50,20 @@ export default ({ entry }: Props) => {
                 </IonGrid>
             </IonItem>
             <IonItemOptions>
-                <IonItemOption color="danger" onClick={() => setShowAlert(true)}>Удалить</IonItemOption>
+                <IonItemOption color="danger" onClick={() => setShowAlert(true)}>
+                    {t('actions.delete')}
+                </IonItemOption>
                 <IonAlert 
                     isOpen={showAlert}
-                    header="Удалить запись?"
-                    message="Восстановить запись будет невозможно"
+                    header={t('actions.deleteEntry') + '?'}
+                    message={t('actions.youCantUndoThisAction')}
                     buttons={[
                         {
-                            text: 'Отмена',
+                            text: t('actions.cancel'),
                             role: 'cancel',
                             handler: () => setShowAlert(false)
                         }, {
-                            text: 'Удалить',
+                            text: t('actions.delete'),
                             role: 'destructive',
                             handler: async () => await entryService.remove(entry)
                         }

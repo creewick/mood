@@ -13,13 +13,13 @@ interface Props {
     close: () => void;
     save: (entry: Entry) => Promise<void>;
     entry: Entry;
-    prevTitle: React.ReactNode;
+    prevTitle: string;
 }
 
 export default ({entry, close, prevTitle, save}: Props) => {
     const [feelings, setFeelings] = useState<Feeling[]>([]);
     const moodService = new MoodService();
-    const title = <Translation path="modal.feelings" />
+    const title = 'modal.feelings';
     const nextComponent = <AddFactorsPage {...{close, save, prevTitle: title, entry: {...entry, feelings}}} />;
     const canSkip = true;
 

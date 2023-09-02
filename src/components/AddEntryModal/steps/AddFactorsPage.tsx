@@ -12,13 +12,13 @@ interface Props {
     entry: Entry;
     close: () => void;
     save: (entry: Entry) => Promise<void>;
-    prevTitle: React.ReactNode;
+    prevTitle: string;
 }
 
 export default ({entry, close, prevTitle, save}: Props) => {
     const [triggers, setTriggers] = useState<Trigger[]>([]);
     const moodService = new MoodService();
-    const title = <Translation path="modal.triggers" />;
+    const title = 'modal.triggers';
     const nextComponent = <AddCommentPage {...{close, save, prevTitle: title, entry: {...entry, triggers: triggers}}} />;
     const canSkip = true;
     

@@ -1,9 +1,9 @@
 {
-    "VeryUnpleasant": "Очень неприятно",
-    "Unpleasant": "Неприятно",
-    "SlightlyUnpleasant": "Немного неприятно",
-    "Neutral": "Нормально",
-    "SlightlyPleasant": "Немного приятно",
-    "Pleasant": "Приятно",
-    "VeryPleasant": "Очень приятно"
+    "veryUnpleasant": "Очень неприятно",
+    "unpleasant": "Неприятно",
+    "slightlyUnpleasant": "Немного неприятно",
+    "neutral": "Нормально",
+    "slightlyPleasant": "Немного приятно",
+    "pleasant": "Приятно",
+    "veryPleasant": "Очень приятно"
 }

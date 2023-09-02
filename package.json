@@ -2,7 +2,7 @@
   "name": "mood-tracker-app",
   "homepage": "https://creewick.github.io/mood",
   "private": true,
-  "version": "0.9.1",
+  "version": "0.10.0",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",

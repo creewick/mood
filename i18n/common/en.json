@@ -17,9 +17,32 @@
         "comment": "Comment",
         "next": "Next",
         "done": "Done",
+        "cancel": "Cancel",
         "skipAndSave": "Skip & Save",
         "howDoYouFellRightNow": "How do you feel right now?",
         "whatBestDescribesThisFeeling": "What best describes this feeling?",
-        "whatIsHavingTheBiggestImpactOnYou": "What's having the biggest impact on you?"
+        "whatIsHavingTheBiggestImpactOnYou": "What's having the biggest impact on you?",
+        "describeYourFeeling": "Describe your feeling"
+    },
+    "actions": {
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "deleteEntry": "Delete Entry",
+        "deleteAllData": "Delete All Data",
+        "youCantUndoThisAction": "You can't undo this action"
+    },
+    "settings": {
+        "language": "Language",
+        "appearance": "Appearance",
+        "dark": "Dark Mode",
+        "auto": "Automatically",
+        "data": "Data",
+        "importData": "Import Data",
+        "exportData": "Export Data",
+        "version": "Version"
+    },
+    "languages": {
+        "en": "English",
+        "ru": "Русский"
     }
 }

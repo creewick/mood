@@ -1,17 +1,10 @@
-import useLocale from "./useLocale";
-import { TranslationProvider, Translation, TranslationLoader } from "i18nano";
+import { TranslationProvider, Translation, TranslationLoader, useTranslationChange } from "i18nano";
 import { translations } from '../../i18n/index';
 import { Feeling } from "../models/entry/Feeling";
 import { Trigger } from "../models/entry/Trigger";
 
 
 export default class MoodService {
-    language: string;
-
-    public constructor() {
-        this.language = useLocale();
-    }
-
     public getMoodCaption(mood: number) {
         const path = 
             mood < -75 ? 'veryUnpleasant' :
@@ -30,8 +23,9 @@ export default class MoodService {
     public getTriggerCaption = (trigger: Trigger) => this.get(translations.triggers, `trigger${trigger as number}`);
 
     private get = (translations: Record<string, TranslationLoader>, path: string) => {
+        const {lang} = useTranslationChange();
         return (
-            <TranslationProvider translations={translations} language={this.language}>
+            <TranslationProvider translations={translations} language={lang}>
                 <Translation path={path} />
             </TranslationProvider>
         );

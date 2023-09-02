@@ -3,17 +3,15 @@ import DaySummaryCardProps from "./DayCardProps";
 import "./DayCard.css";
 import DaySummaryCardEntry from "./DayCardEntry";
 import MoodIcon from "../MoodIcon/MoodIcon";
-import moodCaption from "../../functions/moodCaptions";
 import { Ref, forwardRef } from "react";
 import ColorService from "../../services/ColorService";
-import useLocale from "../../services/useLocale";
-import { Translation } from "i18nano";
+import { Translation, useTranslationChange } from "i18nano";
 import MoodService from "../../services/MoodService";
 
 export default forwardRef(({date, entries}: DaySummaryCardProps, ref: Ref<HTMLIonCardElement>) => {
     const moodService = new MoodService();
-    const language = useLocale();
-    const title = date.toLocaleDateString(language, {weekday: 'short', day: 'numeric', month: 'short'});
+    const {lang} = useTranslationChange();
+    const title = date.toLocaleDateString(lang, {weekday: 'short', day: 'numeric', month: 'short'});
     const mood = entries.map(x => x.mood).reduce((a, b) => a + b, 0) / entries.length || 0;
     const moodCaption = entries.length ? moodService.getMoodCaption(mood) : <Translation path="entries.noEntries" />;
 

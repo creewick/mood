@@ -1,15 +1,14 @@
 import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonButton, IonContent, IonFooter, IonNavLink } from "@ionic/react"
 import ColorService from "../../services/ColorService";
-import { Translation, TranslationProvider } from "i18nano";
-import useLocale from "../../services/useLocale";
+import { Translation, TranslationProvider, useTranslation, useTranslationChange } from "i18nano";
 import { translations } from "../../../i18n";
 
 interface Props {
     children: React.ReactNode;
     footer?: React.ReactNode;
     nextComponent?: React.ReactNode;
-    title: React.ReactNode;
-    prevTitle?: React.ReactNode;
+    title: string;
+    prevTitle?: string;
     mood: number;
     close: () => void;
     save?: () => Promise<void>;
@@ -18,7 +17,8 @@ interface Props {
 }
 
 export default ({children, footer, nextComponent, title, prevTitle, mood, save, close, canSave=false, canSkip=false}: Props) => {
-    const language = useLocale();
+    const {lang} = useTranslationChange();
+    const t = useTranslation();
     const headerStyle = {
         '--background': ColorService.backgroundHex(mood),
     };
@@ -50,21 +50,21 @@ export default ({children, footer, nextComponent, title, prevTitle, mood, save, 
     }
     
     return (
-        <TranslationProvider language={language} translations={translations.common}>
+        <TranslationProvider language={lang} translations={translations.common}>
             <IonHeader className="ion-no-border">
                 <IonToolbar style={headerStyle}>
                     { prevTitle && 
                         <IonButtons slot="start">
-                            <IonBackButton style={linkStyle}>
-                                {prevTitle}
-                            </IonBackButton>
+                            <IonBackButton style={linkStyle} text={t(prevTitle)} />
                         </IonButtons>
                     }
                     <IonTitle>
-                        {title}
+                        <Translation path={title} />
                     </IonTitle>
                     <IonButtons slot="end">
-                        <IonButton onClick={close} style={linkStyle}>Отменить</IonButton>
+                        <IonButton onClick={close} style={linkStyle}>
+                            <Translation path="modal.cancel" />
+                        </IonButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>

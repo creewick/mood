@@ -17,9 +17,32 @@
         "comment": "Комментарий",
         "next": "Далее",
         "done": "Готово",
+        "cancel": "Отменить",
         "skipAndSave": "Пропустить и сохранить",
         "howDoYouFellRightNow": "Как ты себя чувствуешь прямо сейчас?",
         "whatBestDescribesThisFeeling": "Что лучше всего описывает это чувство?",
-        "whatIsHavingTheBiggestImpactOnYou": "Что оказывает наибольшее влияние?"
+        "whatIsHavingTheBiggestImpactOnYou": "Что оказывает наибольшее влияние?",
+        "describeYourFeeling": "Опишите ваше чувство"
+    },
+    "actions": {
+        "cancel": "Отмена",
+        "delete": "Удалить",
+        "deleteEntry": "Удалить запись",
+        "deleteAllData": "Удалить все данные",
+        "youCantUndoThisAction": "Это действие нельзя отменить"
+    },
+    "settings": {
+        "language": "Язык",
+        "appearance": "Оформление",
+        "dark": "Темное",
+        "auto": "Автоматически",
+        "data": "Данные",
+        "importData": "Импорт данных",
+        "exportData": "Экспорт данных",
+        "version": "Версия"
+    },
+    "languages": {
+        "en": "English",
+        "ru": "Русский"
     }
 }
