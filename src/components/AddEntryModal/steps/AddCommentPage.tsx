@@ -1,4 +1,4 @@
-import { IonText, IonTextarea, IonCard } from "@ionic/react";
+import { IonText, IonTextarea, IonCard, IonCardTitle } from "@ionic/react";
 import MoodIcon from "../../MoodIcon/MoodIcon";
 import { useState } from "react";
 import Entry from "../../../models/entry/Entry";
@@ -26,15 +26,13 @@ export default ({entry, close, prevTitle, save}: Props) => {
     
     return (
         <AddEntryModalStep {...{title, prevTitle, save: onSave, mood: entry.mood, close, canSave}}>
+            <IonCardTitle className="ion-padding-vertical ion-text-center">
+                <Translation path="modal.describeYourFeeling" />
+            </IonCardTitle>
             <MoodIcon mood={entry.mood} width="100%" height="max(100px, 25%)" animate={false} />
             <h3 className="title ion-text-center">
                 { moodService.getMoodCaption(entry.mood) }
             </h3>
-            <div className="ion-padding-vertical ion-text-center">
-                <IonText>
-                    <Translation path="modal.describeYourFeeling" />
-                </IonText>
-            </div>
             <IonCard className="ion-padding-horizontal">
                 <IonTextarea autoGrow={true} value={comment} onIonChange={({ detail }) => setComment(detail.value ?? '')} placeholder={t('modal.describeYourFeeling')} />
             </IonCard>

@@ -1,45 +1,59 @@
-import { IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel } from "@ionic/react";
+import { IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel, IonApp } from "@ionic/react";
 import { Translation, useTranslationChange } from "i18nano";
 import { newspaper, addCircle, cog, calendar } from "ionicons/icons";
 import { Redirect, Route } from "react-router";
-import EntriesPage from "./EntriesPage";
-import SettingsPage from "./SettingsPage";
+import EntriesPage from "./routes/EntriesPage";
+import SettingsPage from "./routes/SettingsPage";
 import { useContext, useEffect, useRef, useState } from "react";
-import AddEntryModal from "../components/AddEntryModal/AddEntryModal";
-import StorageContext from "../models/StorageContext";
-import SettingsService from "../services/SettingsService";
-import { defaultLanguage } from "../../i18n";
+import AddEntryModal from "./components/AddEntryModal/AddEntryModal";
+import StorageContext from "./models/StorageContext";
+import SettingsService from "./services/SettingsService";
+import { defaultLanguage } from "../i18n";
 
 export default () => {
     const settingsService = new SettingsService(useContext(StorageContext));
     const {change} = useTranslationChange()
     const [appRef, setAppRef] = useState<HTMLElement | null>();
+    const [darkMode, setDarkMode] = useState<boolean>(false);
     const [showModal, setShowModal] = useState(false);
     const ref = useRef(null);
 
-    const setTheme = async (dark: boolean) => {
+    const setStatusBarColor = async (dark: boolean) => {
         document
             .querySelector('meta[name="theme-color"]')
-            ?.setAttribute("content", dark ? "#000" : "#fff");
+            ?.setAttribute("content", dark ? "#000" : "#f7f7f7");
     }
 
     const updateLocale = async () => {
         const settings = await settingsService.getSettings();
         change(settings.language ?? defaultLanguage);
     }
+    useEffect(() => {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+      toggleDarkTheme(prefersDark.matches);  
+      prefersDark.addEventListener('change', (mediaQuery) => toggleDarkTheme(mediaQuery.matches));
+    }, []);
+
+    const toggleDarkTheme = async (shouldAdd: boolean) => {
+      const settings = await settingsService.getSettings();
+      const darkTheme = settings.autoTheme ? shouldAdd : settings.darkTheme;
+      console.log({shouldAdd, darkTheme: settings.darkTheme});
+
+      document.body.classList.toggle('dark', darkTheme);
+    };
 
     useEffect(() => {
-        setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches || showModal);
+        setStatusBarColor(window.matchMedia('(prefers-color-scheme: dark)').matches || showModal);
     }, [showModal]);
 
     useEffect(() => {
         setAppRef(ref.current);
+        setDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
         updateLocale();
     }, []);
-    
 
     return (
-      <>
+      <IonApp>
         <AddEntryModal isOpen={showModal} close={() => setShowModal(false)} presentingElement={appRef!} />
         <IonTabs>
           <IonRouterOutlet ref={ref}>
@@ -76,6 +90,6 @@ export default () => {
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
-      </>
+      </IonApp>
     );
 }

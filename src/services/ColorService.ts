@@ -60,6 +60,6 @@ export default class ColorService {
     public static backgroundHex = (mood: number) => ColorService.background(mood).toHexString();
 
     public static isDarkTheme() {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return document.body.classList.contains('dark');
     }
 }

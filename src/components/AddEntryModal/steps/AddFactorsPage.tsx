@@ -1,4 +1,4 @@
-import { IonChip, IonText } from "@ionic/react";
+import { IonCardTitle, IonChip, IonText } from "@ionic/react";
 import { Translation } from "i18nano";
 import { useState } from "react";
 import Entry from "../../../models/entry/Entry";
@@ -50,15 +50,13 @@ export default ({entry, close, prevTitle, save}: Props) => {
 
     return (
         <AddEntryModalStep {...{nextComponent, title, prevTitle, save: onSave, mood: entry.mood, close, canSkip}}>
+            <IonCardTitle className="ion-padding-vertical ion-text-center">
+                <Translation path="modal.whatIsHavingTheBiggestImpactOnYou" />
+            </IonCardTitle>
             <MoodIcon mood={entry.mood} width="100%" height="max(100px, 25%)" animate={false} />
             <h3 className="title ion-text-center">
                 { moodService.getMoodCaption(entry.mood) }
             </h3>
-            <div className="ion-padding-vertical ion-text-center">
-                <IonText>
-                    <Translation path="modal.whatIsHavingTheBiggestImpactOnYou" />
-                </IonText>
-            </div>
             { renderGroup(getGroup(HealthTrigger)) }
             { renderGroup(getGroup(SocialTrigger)) }
             { renderGroup(getGroup(TaskTrigger)) }

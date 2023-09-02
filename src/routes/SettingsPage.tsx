@@ -1,17 +1,28 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonNote, IonItem, IonLabel, IonAlert, IonToggle, IonIcon, useIonLoading, IonSelect, IonSelectOption } from "@ionic/react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import StorageContext from "../models/StorageContext";
 import "./SettingsPage.css";
 import * as json from "../../package.json";
 import { contrastOutline, logInOutline, logOutOutline, refreshOutline, trashOutline } from "ionicons/icons";
 import SettingsService from "../services/SettingsService";
 import { Translation, useTranslation, useTranslationChange } from "i18nano";
+import Settings from "../models/Settings";
 
 export default () => {
     const settingsService = new SettingsService(useContext(StorageContext));
+    const [settings, setSettings] = useState<Settings>({} as Settings);
     const [present, dismiss] = useIonLoading();
     const t = useTranslation();
     const {change, preload, lang} = useTranslationChange();
+
+    const loadSettings = async () => {
+        const settings = await settingsService.getSettings();
+        setSettings(settings);
+    }
+
+    useEffect(() => {
+        loadSettings();
+    }, []);
 
     const renderEraseDataAlert = () => (
         <IonAlert 
@@ -60,6 +71,19 @@ export default () => {
         change(language);
     }
 
+    const setDarkTheme = async (e: any) => {
+        setSettings({...settings, darkTheme: e.detail.checked});
+        await settingsService.setSettings({...settings, darkTheme: e.detail.checked});
+        if (!settings.autoTheme) document.body.classList.toggle('dark', e.detail.checked);
+    }
+
+    const setAutoTheme = async (e: any) => {
+        setSettings({...settings, autoTheme: e.detail.checked});
+        await settingsService.setSettings({...settings, autoTheme: e.detail.checked});
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.body.classList.toggle('dark', e.detail.checked ? prefersDark : settings.darkTheme);
+    }
+
     return (
         <IonPage>
             <IonHeader>
@@ -93,12 +117,12 @@ export default () => {
                     <IonItem color="light">
                         <IonIcon slot="start" icon={contrastOutline} />
                         <Translation path="settings.dark" />
-                        <IonToggle slot="end" color="success" />
+                        <IonToggle slot="end" color="success" checked={settings.darkTheme} onIonChange={setDarkTheme} />
                     </IonItem>
                     <IonItem color="light">
                         <IonIcon slot="start" icon={refreshOutline} />
                         <Translation path="settings.auto" />
-                        <IonToggle slot="end" color="success" />
+                        <IonToggle slot="end" color="success" checked={settings.autoTheme} onIonChange={setAutoTheme} />
                     </IonItem>
                 </IonList>
                 <IonNote className="ion-padding-start ion-margin-start ion-text-uppercase">

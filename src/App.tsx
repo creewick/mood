@@ -27,7 +27,7 @@ import './theme/variables.css';
 import StorageContext from './models/StorageContext';
 import { TranslationProvider } from 'i18nano';
 import { defaultLanguage, translations } from '../i18n/index';
-import Routes from './routes/Routes';
+import Routes from './Routes';
 import { Suspense } from 'react';
 
 setupIonicReact({mode: 'ios'});
@@ -40,13 +40,11 @@ export default () => {
   return (
     <TranslationProvider translations={translations.common} language={defaultLanguage}>
       <StorageContext.Provider value={storage}>
-        <IonApp>
           <IonReactHashRouter>
             <Suspense>
               <Routes />
             </Suspense>
           </IonReactHashRouter>
-        </IonApp>
       </StorageContext.Provider>
     </TranslationProvider>
   );
