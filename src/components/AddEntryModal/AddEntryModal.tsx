@@ -1,9 +1,9 @@
 import { IonModal, IonNav } from "@ionic/react";
 import { useContext, useRef } from "react";
 import Entry from "../../models/entry/Entry";
-import AddMoodPage from "./steps/AddMoodPage";
 import EntryService from "../../services/EntryService";
 import StorageContext from "../../models/StorageContext";
+import AddDatePage from "./steps/AddDatePage";
 
 interface Props {
     presentingElement: HTMLElement; 
@@ -30,7 +30,7 @@ export default ({presentingElement, isOpen, close}: Props) => {
 
     return (
         <IonModal {...{ref, isOpen, presentingElement, onDidDismiss, canDismiss}}>
-            <IonNav root={() => <AddMoodPage {...{entry, close, save}} />} />
+            <IonNav root={() => <AddDatePage {...{entry, close, save}} />} />
         </IonModal>
     );
 };

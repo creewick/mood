@@ -69,15 +69,14 @@ export default () => {
 
   useEffect(() => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    toggleDarkTheme(prefersDark.matches);  
-    prefersDark.addEventListener('change', async (mediaQuery) => {
-      const settings = await settingsService.getSettings();
-      const darkTheme = settings.autoTheme ? prefersDark.matches : settings.darkTheme;
-      toggleDarkTheme(darkTheme);
-    });
+    document.body.classList.toggle('dark', prefersDark.matches);
+    toggleDarkTheme(prefersDark.matches);
+    prefersDark.addEventListener('change', async (prefersDark) => await toggleDarkTheme(prefersDark.matches));
   }, []);
 
-  const toggleDarkTheme = (darkTheme: boolean) => {
+  const toggleDarkTheme = async (prefersDark: boolean) => {
+    const settings = await settingsService.getSettings();
+    const darkTheme = settings.autoTheme ? prefersDark : settings.darkTheme;
     document.body.classList.toggle('dark', darkTheme);
   };
 

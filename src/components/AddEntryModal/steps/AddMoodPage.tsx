@@ -12,17 +12,18 @@ import AddFeelingsPage from "./AddFeelingsPage";
 interface Props {
     close: () => void;
     save: (entry: Entry) => Promise<void>;
+    prevTitle: string;
     entry: Entry;
 }
 
-export default ({entry, close, save}: Props) => {
+export default ({entry, close, prevTitle, save}: Props) => {
     const [mood, setMood] = useState(entry.mood ?? 0);
     const title = 'modal.mood';
     const nextComponent = <AddFeelingsPage {...{close, save, prevTitle: title, entry: {...entry, mood}}} />;
     const footer = <MoodInput mood={mood} setMood={setMood} className="ion-padding-horizontal" />;
 
     return (
-        <AddEntryModalStep {...{footer, nextComponent, title, mood, close}}>
+        <AddEntryModalStep {...{footer, prevTitle, nextComponent, title, mood, close}}>
             <IonCardTitle className="ion-padding-top ion-text-center">
                 <Translation path="modal.howDoYouFellRightNow" />
             </IonCardTitle>

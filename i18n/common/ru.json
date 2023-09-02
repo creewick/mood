@@ -11,6 +11,7 @@
         "noEntries": "Нет записей"
     },
     "modal": {
+        "time": "Время",
         "mood": "Настроение",
         "feelings": "Чувства",
         "triggers": "Триггеры",
@@ -19,6 +20,7 @@
         "done": "Готово",
         "cancel": "Отменить",
         "skipAndSave": "Пропустить и сохранить",
+        "logAnEmotionOrMood": "Сделайте запись об эмоции или настроении",
         "howDoYouFellRightNow": "Как ты себя чувствуешь прямо сейчас?",
         "whatBestDescribesThisFeeling": "Что лучше всего описывает это чувство?",
         "whatIsHavingTheBiggestImpactOnYou": "Что оказывает наибольшее влияние?",

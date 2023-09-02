@@ -4,3 +4,11 @@ ion-note {
     position: relative;
     top: 8px;
 }
+
+.settings ion-list {
+    background: transparent;
+}
+
+.dark .settings ion-item::part(native) {
+    background: #101010;
+}

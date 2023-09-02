@@ -17,7 +17,9 @@ export default ({ entry }: Props) => {
     const t = useTranslation();
     const moodService = new MoodService();
     const time = entry.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    // const tags = entry.feelings.concat(entry.triggers).join(', ');
+    const tags = entry.feelings.map(moodService.getFeelingCaption)
+        .concat(entry.triggers.map(moodService.getTriggerCaption))
+        .map((x, i) => i === 0 ? x : <>, {x}</>);
     const entryService = new EntryService(useContext(StorageContext));
 
     return (
@@ -35,15 +37,15 @@ export default ({ entry }: Props) => {
                             </IonLabel>
                         </IonCol>
                         <IonCol style={{maxWidth: '48px', minWidth: '48px'}}>
-                            <div className="day-card-tags ion-text-end">
+                            <div className="day-card-text ion-text-end">
                                 {time}
                             </div>
                         </IonCol>
                     </IonRow>
                     <IonRow>
                         <IonCol>
-                            <IonLabel className="day-card-tags">
-                                {/* {tags} */}
+                            <IonLabel className="day-card-text">
+                                {tags}
                             </IonLabel>
                         </IonCol>
                     </IonRow>

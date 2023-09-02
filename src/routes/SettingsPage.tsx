@@ -94,7 +94,7 @@ export default () => {
     }
 
     return (
-        <IonPage>
+        <IonPage className="settings">
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>
