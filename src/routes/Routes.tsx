@@ -1,6 +1,6 @@
 import { IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel } from "@ionic/react";
 import { Translation, useTranslationChange } from "i18nano";
-import { newspaper, addCircle, cog } from "ionicons/icons";
+import { newspaper, addCircle, cog, calendar } from "ionicons/icons";
 import { Redirect, Route } from "react-router";
 import EntriesPage from "./EntriesPage";
 import SettingsPage from "./SettingsPage";
@@ -54,7 +54,7 @@ export default () => {
                 <Translation path="tabs.entries"/>
               </IonLabel>
             </IonTabButton>
-            {/* <IonTabButton tab="calendar" href="/mood/calendar">
+            {/* <IonTabButton tab="calendar" href="/calendar">
               <IonIcon icon={calendar} />
               <IonLabel>---</IonLabel>
             </IonTabButton> */}

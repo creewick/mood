@@ -77,8 +77,12 @@ export default () => {
                     <IonItem color="light">
                     <Translation path="settings.language" />
                     <IonSelect slot="end" interface="popover" value={lang} onIonChange={setLanguage}>
-                        <IonSelectOption value="en">{t('languages.en')}</IonSelectOption>
-                        <IonSelectOption value="ru">{t('languages.ru')}</IonSelectOption>
+                        <IonSelectOption value="en">
+                            <Translation path="languages.en" />
+                        </IonSelectOption>
+                        <IonSelectOption value="ru">
+                            <Translation path="languages.ru" />
+                        </IonSelectOption>
                     </IonSelect>
                     </IonItem>
                 </IonList>

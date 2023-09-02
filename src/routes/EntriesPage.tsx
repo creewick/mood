@@ -32,6 +32,7 @@ export default () => {
   useEffect(() => {
     const handleScroll = async () => {
       if (scrollRef.current && scrollRef.current.scrollLeft === 0) {
+        scrollRef.current.removeEventListener('scroll', handleScroll);
         await loadCards();
       }
     };

@@ -28,6 +28,7 @@ import StorageContext from './models/StorageContext';
 import { TranslationProvider } from 'i18nano';
 import { defaultLanguage, translations } from '../i18n/index';
 import Routes from './routes/Routes';
+import { Suspense } from 'react';
 
 setupIonicReact({mode: 'ios'});
 
@@ -36,15 +37,14 @@ const storage = new Storage();
 storage.create();
 
 export default () => {
-  // const isDevelopment = process.env.NODE_ENV === 'development';
-  // const AppRouter = isDevelopment ? IonReactRouter : IonReactHashRouter;
-
   return (
     <TranslationProvider translations={translations.common} language={defaultLanguage}>
       <StorageContext.Provider value={storage}>
         <IonApp>
           <IonReactHashRouter>
-            <Routes />
+            <Suspense>
+              <Routes />
+            </Suspense>
           </IonReactHashRouter>
         </IonApp>
       </StorageContext.Provider>
