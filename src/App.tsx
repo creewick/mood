@@ -1,9 +1,13 @@
 import {
   IonApp,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
   setupIonicReact
 } from '@ionic/react';
-import { IonReactHashRouter, IonReactRouter } from '@ionic/react-router';
-import { Storage } from '@ionic/storage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -25,27 +29,101 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 import StorageContext from './models/StorageContext';
-import { TranslationProvider } from 'i18nano';
-import { defaultLanguage, translations } from '../i18n/index';
-import Routes from './Routes';
-import { Suspense } from 'react';
+import { Translation, useTranslationChange } from 'i18nano';
+import { defaultLanguage } from '../i18n/index';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { newspaper, addCircle, cog } from 'ionicons/icons';
+import { Redirect, Route } from 'react-router';
+import AddEntryModal from './components/AddEntryModal/AddEntryModal';
+import EntriesPage from './routes/EntriesPage';
+import SettingsPage from './routes/SettingsPage';
+import SettingsService from './services/SettingsService';
 
 setupIonicReact({mode: 'ios'});
 
-
-const storage = new Storage();
-storage.create();
-
 export default () => {
+  
+  const settingsService = new SettingsService(useContext(StorageContext));
+  const {change} = useTranslationChange()
+  const [appRef, setAppRef] = useState<HTMLElement | null>();
+  const [showModal, setShowModal] = useState(false);
+  const ref = useRef(null);
+
+  const setStatusBarColor = async (dark: boolean) => {
+    const settings = await settingsService.getSettings();
+    const condition = dark || showModal || (settings.darkTheme && !settings.autoTheme);
+    document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute("content", condition ? "#000" : "#f7f7f7");
+  }
+
+  useEffect(() => {
+    setStatusBarColor(document.body.classList.contains('dark'));
+  }, [showModal]);
+
+
+  const updateLocale = async () => {
+      const settings = await settingsService.getSettings();
+      change(settings.language ?? defaultLanguage);
+  }
+
+  useEffect(() => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    toggleDarkTheme(prefersDark.matches);  
+    prefersDark.addEventListener('change', async (mediaQuery) => {
+      const settings = await settingsService.getSettings();
+      const darkTheme = settings.autoTheme ? prefersDark.matches : settings.darkTheme;
+      toggleDarkTheme(darkTheme);
+    });
+  }, []);
+
+  const toggleDarkTheme = (darkTheme: boolean) => {
+    document.body.classList.toggle('dark', darkTheme);
+  };
+
+  useEffect(() => {
+      setAppRef(ref.current);
+      updateLocale();
+  }, []);
+
   return (
-    <TranslationProvider translations={translations.common} language={defaultLanguage}>
-      <StorageContext.Provider value={storage}>
-          <IonReactHashRouter>
-            <Suspense>
-              <Routes />
-            </Suspense>
-          </IonReactHashRouter>
-      </StorageContext.Provider>
-    </TranslationProvider>
+    <IonApp>
+      <AddEntryModal isOpen={showModal} close={() => setShowModal(false)} presentingElement={appRef!} />
+      <IonTabs>
+        <IonRouterOutlet ref={ref}>
+          <Redirect exact from="/" to="/entries" />
+          <Route path="/entries" render={() => <EntriesPage />} />
+          <Route path="/settings" render={() => <SettingsPage />} />
+        </IonRouterOutlet>
+        <IonTabBar slot="bottom">
+          <IonTabButton tab="entries" href="/entries">
+            <IonIcon icon={newspaper} />
+            <IonLabel>
+              <Translation path="tabs.entries"/>
+            </IonLabel>
+          </IonTabButton>
+          {/* <IonTabButton tab="calendar" href="/calendar">
+            <IonIcon icon={calendar} />
+            <IonLabel>---</IonLabel>
+          </IonTabButton> */}
+          <IonTabButton tab="add" onClick={() => {setShowModal(true);}}>
+            <IonIcon icon={addCircle} />
+            <IonLabel>
+              <Translation path="tabs.addEntry"/>
+            </IonLabel>
+          </IonTabButton>
+          {/* <IonTabButton tab="highlights" href="/mood/highlights">
+            <IonIcon icon={statsChart} />
+            <IonLabel>---</IonLabel>
+          </IonTabButton> */}
+          <IonTabButton tab="settings" href="/settings">
+            <IonIcon icon={cog} />
+            <IonLabel>
+              <Translation path="tabs.settings"/>
+            </IonLabel>
+          </IonTabButton>
+        </IonTabBar>
+      </IonTabs>
+    </IonApp>
   );
-};
+}
