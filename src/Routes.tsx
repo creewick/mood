@@ -14,20 +14,22 @@ export default () => {
     const settingsService = new SettingsService(useContext(StorageContext));
     const {change} = useTranslationChange()
     const [appRef, setAppRef] = useState<HTMLElement | null>();
-    const [darkMode, setDarkMode] = useState<boolean>(false);
     const [showModal, setShowModal] = useState(false);
     const ref = useRef(null);
 
     const setStatusBarColor = async (dark: boolean) => {
-        document
-            .querySelector('meta[name="theme-color"]')
-            ?.setAttribute("content", dark ? "#000" : "#f7f7f7");
+      const settings = await settingsService.getSettings();
+      const condition = dark || showModal || (settings.darkTheme && !settings.autoTheme);
+      document
+          .querySelector('meta[name="theme-color"]')
+          ?.setAttribute("content", condition ? "#000" : "#f7f7f7");
     }
 
     const updateLocale = async () => {
         const settings = await settingsService.getSettings();
         change(settings.language ?? defaultLanguage);
     }
+  
     useEffect(() => {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
       toggleDarkTheme(prefersDark.matches);  
@@ -43,12 +45,11 @@ export default () => {
     };
 
     useEffect(() => {
-        setStatusBarColor(window.matchMedia('(prefers-color-scheme: dark)').matches || showModal);
+        setStatusBarColor(document.body.classList.contains('dark'));
     }, [showModal]);
 
     useEffect(() => {
         setAppRef(ref.current);
-        setDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
         updateLocale();
     }, []);
 

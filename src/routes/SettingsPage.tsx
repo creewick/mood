@@ -74,14 +74,23 @@ export default () => {
     const setDarkTheme = async (e: any) => {
         setSettings({...settings, darkTheme: e.detail.checked});
         await settingsService.setSettings({...settings, darkTheme: e.detail.checked});
-        if (!settings.autoTheme) document.body.classList.toggle('dark', e.detail.checked);
+        if (!settings.autoTheme) {
+            document.body.classList.toggle('dark', e.detail.checked);
+            document
+                .querySelector('meta[name="theme-color"]')
+                ?.setAttribute("content", e.detail.checked ? "#000" : "#f7f7f7");
+        }
     }
 
     const setAutoTheme = async (e: any) => {
         setSettings({...settings, autoTheme: e.detail.checked});
         await settingsService.setSettings({...settings, autoTheme: e.detail.checked});
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.body.classList.toggle('dark', e.detail.checked ? prefersDark : settings.darkTheme);
+        const value = e.detail.checked ? prefersDark : settings.darkTheme;
+        document.body.classList.toggle('dark', value);
+        document
+                .querySelector('meta[name="theme-color"]')
+                ?.setAttribute("content", value ? "#000" : "#f7f7f7");
     }
 
     return (
