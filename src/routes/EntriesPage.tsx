@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import StorageContext from '../models/StorageContext';
 import EntryService from '../services/EntryService';
@@ -86,7 +86,7 @@ export default () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-              <IonButton onClick={() => todayCardRef.current?.scrollIntoView({ behavior: 'smooth', inline: 'start' })}>
+              <IonButton onClick={() => (todayCardRef.current || cardRef.current)?.scrollIntoView({ behavior: 'smooth', inline: 'start' })}>
                 <Translation path="entries.today" />
               </IonButton>
           </IonButtons>
