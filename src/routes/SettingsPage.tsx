@@ -126,7 +126,7 @@ export default () => {
                     <IonItem color="light">
                         <IonIcon slot="start" icon={contrastOutline} />
                         <Translation path="settings.dark" />
-                        <IonToggle slot="end" color="success" checked={settings.darkTheme} onIonChange={setDarkTheme} />
+                        <IonToggle slot="end" color="success" disabled={settings.autoTheme} checked={settings.darkTheme && !settings.autoTheme} onIonChange={setDarkTheme} />
                     </IonItem>
                     <IonItem color="light">
                         <IonIcon slot="start" icon={refreshOutline} />
