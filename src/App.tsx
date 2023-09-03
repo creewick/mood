@@ -32,12 +32,13 @@ import StorageContext from './models/StorageContext';
 import { Translation, useTranslationChange } from 'i18nano';
 import { defaultLanguage } from '../i18n/index';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { newspaper, addCircle, cog } from 'ionicons/icons';
+import { newspaper, addCircle, cog, calendar, statsChart } from 'ionicons/icons';
 import { Redirect, Route } from 'react-router';
 import AddEntryModal from './components/AddEntryModal/AddEntryModal';
 import EntriesPage from './routes/EntriesPage';
 import SettingsPage from './routes/SettingsPage';
 import SettingsService from './services/SettingsService';
+import CalendarPage from './routes/CalendarPage';
 
 setupIonicReact({mode: 'ios'});
 
@@ -92,6 +93,7 @@ export default () => {
         <IonRouterOutlet ref={ref}>
           <Redirect exact from="/" to="/entries" />
           <Route path="/entries" render={() => <EntriesPage />} />
+          <Route path="/calendar" render={() => <CalendarPage />} />
           <Route path="/settings" render={() => <SettingsPage />} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
@@ -101,20 +103,24 @@ export default () => {
               <Translation path="tabs.entries"/>
             </IonLabel>
           </IonTabButton>
-          {/* <IonTabButton tab="calendar" href="/calendar">
+          <IonTabButton tab="calendar" href="/calendar">
             <IonIcon icon={calendar} />
-            <IonLabel>---</IonLabel>
-          </IonTabButton> */}
+            <IonLabel>
+              <Translation path="tabs.calendar"/>
+            </IonLabel>
+          </IonTabButton>
           <IonTabButton tab="add" onClick={() => {setShowModal(true);}}>
             <IonIcon icon={addCircle} />
             <IonLabel>
               <Translation path="tabs.addEntry"/>
             </IonLabel>
           </IonTabButton>
-          {/* <IonTabButton tab="highlights" href="/mood/highlights">
+          <IonTabButton tab="highlights" href="/mood/highlights">
             <IonIcon icon={statsChart} />
-            <IonLabel>---</IonLabel>
-          </IonTabButton> */}
+            <IonLabel>
+              <Translation path="tabs.highlights"/>
+            </IonLabel>
+          </IonTabButton>
           <IonTabButton tab="settings" href="/settings">
             <IonIcon icon={cog} />
             <IonLabel>
