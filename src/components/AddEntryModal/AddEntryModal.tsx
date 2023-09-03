@@ -3,7 +3,6 @@ import { useContext, useRef } from "react";
 import Entry from "../../models/entry/Entry";
 import EntryService from "../../services/EntryService";
 import StorageContext from "../../models/StorageContext";
-import AddDatePage from "./steps/AddDatePage";
 import AddMoodPage from "./steps/AddMoodPage";
 
 interface Props {

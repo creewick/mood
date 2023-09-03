@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import StorageContext from '../models/StorageContext';
 import EntryService from '../services/EntryService';
 import DaySummaryCardProps from '../components/DayCard/DayCardProps';
@@ -12,6 +12,7 @@ export default () => {
   const entryService = new EntryService(useContext(StorageContext));
   const scrollRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLIonCardElement>(null);
+  const todayCardRef = useRef<HTMLIonCardElement>(null);
 
   const update = async (date: Date) => {
     const index = cards.findIndex(card => card.date.toDateString() === date.toDateString());
@@ -73,10 +74,22 @@ export default () => {
     setCards([...newCards, ...cards]);
   };
 
+  const ref = (i: number) => {
+    if (i === Math.min(cards.length - 1, 7))
+      return cardRef;
+    if (i === cards.length - 1)
+      return todayCardRef;
+  }
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+              <IonButton onClick={() => todayCardRef.current?.scrollIntoView({ behavior: 'smooth', inline: 'start' })}>
+                <Translation path="entries.today" />
+              </IonButton>
+          </IonButtons>
           <IonTitle>
             <Translation path="tabs.entries"/>
           </IonTitle>
@@ -85,7 +98,7 @@ export default () => {
       <IonContent>
         <div ref={scrollRef} style={{display: 'flex', overflowX: 'scroll', scrollSnapType: 'x mandatory', height: '100%'}}>
           <DayCardPlaceholder />
-          { cards.map((props, i) => <DayCard {...props} key={i} ref={i === Math.min(cards.length - 1, 7) ? cardRef : undefined} />) }
+          { cards.map((props, i) => <DayCard {...props} key={i} ref={ref(i)} />) }
           <DayCardPlaceholder />
         </div>
       </IonContent>

@@ -8,7 +8,8 @@
     },
     "entries": {
         "moodOfTheDay": "Mood of the Day",
-        "noEntries": "No entries"
+        "noEntries": "No entries",
+        "today": "Today"
     },
     "modal": {
         "time": "Time",
